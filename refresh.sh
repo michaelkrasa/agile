@@ -14,9 +14,10 @@
 # find tag name
 BRANCH=$(git branch | grep "\*" | cut -d ' ' -f 2)
 
-# The remote upstream should already be added in your repository but if it is
-# not there you can add it by running
-# git remote add upstream https://gitlab.cs.man.ac.uk/mbaxjgr2/comp26120_base
+# The remote upstream should be added in your repository 
+if ! git config remote.upstream.url > /dev/null; then
+  git remote add upstream https://gitlab.cs.man.ac.uk/mbaxjgr2/comp26120_base
+fi
 
 # Get any upstream changes
 git fetch upstream
