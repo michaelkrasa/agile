@@ -10,7 +10,7 @@ float c2f (float c)
 
 float f2c (float f)
 {
-  return (5*f-32)/9;
+  return ((f-32)*5)/9;
 }
 
 int main(int argc, char *argv[])
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
       printf("Temperatures below zero\n");
       return 4;
     }
-    printf("%0.2f°F = %.2f°C\n", c2f(number), number);
+    printf("%0.2f°C = %.2f°F\n", number, c2f(number));
   }
   else
   {
