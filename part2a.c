@@ -7,8 +7,11 @@ int main(int argc, char *argv[])
   int i = 0, max = 0, maxPos = 0;
 
   if(argc == 1)
+  {
+    printf("Error: expected some command-line parameters");
     return 0;
-
+  }
+  
   int lengths[argc-1];
 
   for(i=1; i < argc; i++)
@@ -20,7 +23,7 @@ int main(int argc, char *argv[])
       max = lengths[i];
       maxPos = i;
     }
-  
+
   printf("%s\n", argv[maxPos+1]);
   return 0;
 }
