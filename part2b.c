@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
       printf("Temperatures below absolute zero\n");
       return 4;
     }
-    printf("%0.2f°F = %.2f°C\n", number, f2c(number));
+    printf("%0.2f°C = %.2f°F\n", f2c(number), number);
   }
 
   else if(strcmp(argv[1],"-c") == 0)
@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
       printf("Temperatures below zero\n");
       return 4;
     }
-    printf("%0.2f°C = %.2f°F\n", number, c2f(number));
+    printf("%0.2f°F = %.2f°C\n", c2f(number), number);
   }
   else
   {
