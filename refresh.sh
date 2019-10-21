@@ -16,14 +16,13 @@ BRANCH=$(git branch | grep "\*" | cut -d ' ' -f 2)
 
 # The remote upstream should be added in your repository 
 if ! git config remote.upstream.url > /dev/null; then
-  git remote add upstream https://gitlab.cs.man.ac.uk/mbaxjgr2/comp26120_base
+  git remote add upstream https://gitlab.cs.man.ac.uk/mbaxjgr2/comp26120_base.git
 fi
 
 # Get any upstream changes
 git fetch upstream
 
 # Rebase on top of them (apply them before any local changes)
-git rebase upstream/"${BRANCH}"
+git merge upstream/"${BRANCH}"
 
-# This will diverge from origin so force push
-git push -f origin "${BRANCH}"
+git push origin "${BRANCH}"
