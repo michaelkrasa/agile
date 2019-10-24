@@ -1,0 +1,28 @@
+First issue was that the char* temp pointer was just pointing to the original
+array/string work.first which means that whenever we were working with the
+pointer we were changing our actual array, that's why the input was always
+lower-case.
+
+work.second also had to be properly initialised to the required size using
+malloc(sizeof(char)*strlen(work.first));
+
+Instead I decided to copy the string from work.first to temp so that work.first
+is safe. The variable temp also had to be initialised the same way work.second
+was.
+
+Second fix was changing the while loop to a do while loop which couldn't be
+done without the debugger program.
+What I had to do was:
+gdb broken
+gdb break process
+gdb watch ptr
+
+This way I could tell how our pointer was changed and then the problem became
+apparent. It iterated *ptr before we could change the first character to
+upper-case and for that reason only the second character was upper-case
+instead of the first one.
+
+To get rid of all errors using valgrind, I had to allocate an extra character
+to the malloc function for the "\0" which is how a string is terminated
+in the C compiler. Moreover I added two free() methods right after I used
+the variables that have had an allocated memory size for the last time.
