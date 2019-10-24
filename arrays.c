@@ -38,7 +38,7 @@ int main(int argc, char **argv)
   /* print the people array here*/
   for(i=0; i < HOW_MANY; i++)
   {
-    printf("Name: %s, Age: %d\n", people[i]->name, people[i]->age);
+    printf("%d: %s is %d\n", i, people[i]->name, people[i]->age);
   }
   for(i=0; i < HOW_MANY; i++)
   {
