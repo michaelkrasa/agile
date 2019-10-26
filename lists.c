@@ -7,17 +7,20 @@
 struct person {
   char* name;
   int age;
-} person;
+  struct person* next;
+};
 
-static void insert(struct person* people[], char *name, int age, int *nextinsert)
+static void insert(person* head, char *name, int age)
 {
-  /* put name and age into the next free place in the array parameter here */
-  people[(*nextinsert)] = malloc(sizeof(person));
-  people[(*nextinsert)]->name = malloc(sizeof(char)*sizeof(names));
-  strcpy(people[(*nextinsert)]->name, name);
-  people[(*nextinsert)]->age = age;
+  Person* new = (Person*)malloc(sizeof(struct Person));
+  new->name = (Person*)malloc(sizeof(char)*sizeof(names));
+  new->name = name;
+  new->age = age;
+
+  new->next = head;
+  head = new;
   /* modify nextfreeplace here */
-  (*nextinsert)++;
+  
 }
 
 int main(int argc, char **argv)
@@ -29,22 +32,11 @@ int main(int argc, char **argv)
   free(testMalloc);
 
   // Declaring people array yeet
-  struct person *people[HOW_MANY];
-  int nextinsert = 0;
+  person *head = NULL;
+  nextinsert = 0;
   int i = 0;
   for (i=0;i < HOW_MANY; i++)
-    insert(people, names[i], ages[i], &nextinsert);
-
-  /* print the people array here*/
-  for(i=0; i < HOW_MANY; i++)
-  {
-    printf("%d: %s is %d\n", i, people[i]->name, people[i]->age);
-  }
-  for(i=0; i < HOW_MANY; i++)
-  {
-    free(people[i]->name);
-    free(people[i]);
-  }
+    insert(head, names[i], ages[i]);
 
   return 0;
 }
