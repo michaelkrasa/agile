@@ -66,7 +66,7 @@ static person* insert_sorted(struct person* head, char *name, int age)
   else
   {
     struct person* start = head;
-    while(head->next != NULL && compare_people(new, head->next) > 0)
+    while(head->next != NULL && compare_people(new, head->next) >= 0)
       head = head->next;
 
     new->next = head->next;
