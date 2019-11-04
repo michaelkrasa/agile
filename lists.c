@@ -22,19 +22,20 @@ static person* insert_start(person* head, char *name, int age)
 }
 
 
-static person* insert_end(struct person* head, char *name, int age)
+static person* insert_end(person* head, char *name, int age)
 {
   struct person* new = (struct person*)malloc(sizeof(struct person));
   struct person* prev = head;
 
   new->name = malloc(sizeof(char)*strlen(name));
-  new->name = name;
+  strcpy(new->name, name);
   new->age = age;
 
-  if (head == NULL)
+  if(head == NULL)
   {
-     head = new;
-     return head;
+    new->next = head;
+    head = new;
+    return head;
   }
 
   while (prev->next != NULL)
@@ -75,7 +76,7 @@ void printList(struct person *node)
   }
 }
 
-int main(int argc, char* argv)
+int main(int argc, char** argv)
 {
   int* testMalloc = malloc(15000000);
   if(testMalloc == NULL)
@@ -89,7 +90,15 @@ int main(int argc, char* argv)
   int i = 0;
   for (i=0;i < HOW_MANY; i++)
   {
-    head = insert_start(head, names[i], ages[i]);
+    if(argc == 1 || argc == 2 && strcmp(argv[1], "insert_start") == 0)
+      head = insert_start(head, names[i], ages[i]);
+    else if(argc == 2 && strcmp(argv[1], "insert_end") == 0)
+      head = insert_end(head, names[i], ages[i]);
+    else
+    {
+      fprintf(stderr, "U fucked up m8\n");
+      return 1;
+    }
   }
   // Preserve the head before we iterate through it and print it
   struct person* start = head;
