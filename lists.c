@@ -10,7 +10,12 @@ typedef struct person {
   struct person* next;
 } person;
 
-static person* insert_start(person* head, char *name, int age)
+static int compare_people(struct person* p1, struct person* p2)
+{
+  return strcmp(p1->name, p2->name);
+}
+
+static person* insert_start(struct person* head, char *name, int age)
 {
   struct person* new = (struct person*)malloc(sizeof(struct person));
   new->name = malloc(sizeof(char)*strlen(name));
@@ -21,8 +26,7 @@ static person* insert_start(person* head, char *name, int age)
   return head;
 }
 
-
-static person* insert_end(person* head, char *name, int age)
+static person* insert_end(struct person* head, char *name, int age)
 {
   struct person* new = (struct person*)malloc(sizeof(struct person));
   struct person* prev = head;
@@ -45,27 +49,31 @@ static person* insert_end(person* head, char *name, int age)
   return head;
 }
 
-/*static person* insert_sorted(struct person* head, char *name, int age)
+static person* insert_sorted(struct person* head, char *name, int age)
 {
   struct person* new = (struct person*)malloc(sizeof(struct person));
-  struct person* prev = head;
 
-  new->name = malloc(sizeof(char)*strlen(name));
-  new->name = name;
+  new->name = malloc(sizeof(char)*strlen(name)+1);
+  strcpy(new->name, name);
   new->age = age;
 
-  if (head == NULL)
+  if (head == NULL || compare_people(new, head) < 0)
   {
-     head = new;
-     return head;
+    new->next = head;
+    head = new;
+    return head;
   }
+  else
+  {
+    struct person* start = head;
+    while(head->next != NULL && compare_people(new, head->next) > 0)
+      head = head->next;
 
-  while (prev->next != NULL)
-    prev = prev->next;
-
-  prev->next = new;
-  return head;
-}*/
+    new->next = head->next;
+    head->next = new;
+    return start;
+  }
+}
 
 void printList(struct person *node)
 {
@@ -94,9 +102,12 @@ int main(int argc, char** argv)
       head = insert_start(head, names[i], ages[i]);
     else if(argc == 2 && strcmp(argv[1], "insert_end") == 0)
       head = insert_end(head, names[i], ages[i]);
+    else if(argc == 2 && strcmp(argv[1], "insert_sorted") == 0)
+      head = insert_sorted(head, names[i], ages[i]);
+
     else
     {
-      fprintf(stderr, "U fucked up m8\n");
+      fprintf(stderr, "Nope\n");
       return 1;
     }
   }
@@ -105,7 +116,7 @@ int main(int argc, char** argv)
 
   printList(head);
 
-  /*for(i=0; i < HOW_MANY; i++)
+  /*while(head != NULL)
   {
     free(people[i]->name);
     free(people[i]);
