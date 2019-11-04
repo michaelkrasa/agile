@@ -10,15 +10,24 @@ typedef struct person {
   struct person* next;
 } person;
 
-static int compare_people(struct person* p1, struct person* p2)
+static int compare_people_by_name(struct person* p1, struct person* p2)
 {
   return strcmp(p1->name, p2->name);
 }
 
+static int compare_people_by_age(struct person* p1, struct person* p2)
+{
+  if(p1->age < p2->age) {return -1;}
+  else if(p1->age > p2->age) {return 1;}
+  else {return 0;}
+}
+
+
+
 static person* insert_start(struct person* head, char *name, int age)
 {
-  struct person* new = (struct person*)malloc(sizeof(struct person));
-  new->name = malloc(sizeof(char)*strlen(name));
+  struct person* new = (person*)malloc(sizeof(struct person));
+  new->name = malloc(sizeof(char)*strlen(name)+1);
   strcpy(new->name, name);
   new->age = age;
   new->next = head;
@@ -28,10 +37,10 @@ static person* insert_start(struct person* head, char *name, int age)
 
 static person* insert_end(struct person* head, char *name, int age)
 {
-  struct person* new = (struct person*)malloc(sizeof(struct person));
+  struct person* new = (person*)malloc(sizeof(struct person));
   struct person* prev = head;
 
-  new->name = malloc(sizeof(char)*strlen(name));
+  new->name = malloc(sizeof(char)*strlen(name)+1);
   strcpy(new->name, name);
   new->age = age;
 
@@ -49,9 +58,9 @@ static person* insert_end(struct person* head, char *name, int age)
   return head;
 }
 
-static person* insert_sorted(struct person* head, char *name, int age)
+static person* insert_sorted(struct person* head, char *name, int age, int (*compare_people)(struct person*, struct person*))
 {
-  struct person* new = (struct person*)malloc(sizeof(struct person));
+  struct person* new = (person*)malloc(sizeof(struct person));
 
   new->name = malloc(sizeof(char)*strlen(name)+1);
   strcpy(new->name, name);
@@ -75,15 +84,6 @@ static person* insert_sorted(struct person* head, char *name, int age)
   }
 }
 
-void printList(struct person *node)
-{
-  while (node != NULL)
-  {
-    printf("Name: %s, age: %d\n", node->name, node->age);
-    node = node->next;
-  }
-}
-
 int main(int argc, char** argv)
 {
   int* testMalloc = malloc(15000000);
@@ -103,7 +103,11 @@ int main(int argc, char** argv)
     else if(argc == 2 && strcmp(argv[1], "insert_end") == 0)
       head = insert_end(head, names[i], ages[i]);
     else if(argc == 2 && strcmp(argv[1], "insert_sorted") == 0)
-      head = insert_sorted(head, names[i], ages[i]);
+      head = insert_sorted(head, names[i], ages[i], compare_people_by_name);
+    else if(argc == 3 && strcmp(argv[1], "insert_sorted") == 0 && strcmp(argv[2], "name") == 0)
+      head = insert_sorted(head, names[i], ages[i], compare_people_by_name);
+    else if(argc == 3 && strcmp(argv[1], "insert_sorted") == 0 && strcmp(argv[2], "age") == 0)
+      head = insert_sorted(head, names[i], ages[i], compare_people_by_age);
 
     else
     {
@@ -114,13 +118,23 @@ int main(int argc, char** argv)
   // Preserve the head before we iterate through it and print it
   struct person* start = head;
 
-  printList(head);
-
-  /*while(head != NULL)
+  // Printing
+  while (head != NULL)
   {
-    free(people[i]->name);
-    free(people[i]);
-  }*/
+    printf("Name: %s, age: %d\n", head->name, head->age);
+    head = head->next;
+  }
+  // Resetting the head to be used in the next block
+  head = start;
+
+  // Freeing the memory
+  while(start != NULL)
+  {
+    head = start->next;
+    free(start->name);
+    free(start);
+    start = head;
+  }
 
   return 0;
 }
