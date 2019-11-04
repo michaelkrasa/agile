@@ -96,11 +96,11 @@ int main(int argc, char* argv)
 
   printList(head);
 
-  for(i=0; i < HOW_MANY; i++)
+  /*for(i=0; i < HOW_MANY; i++)
   {
     free(people[i]->name);
     free(people[i]);
-  }
+  }*/
 
   return 0;
 }
