@@ -27,13 +27,12 @@ static int compare_people_by_age(struct person* p1, struct person* p2)
 static person* insert_start(struct person* head, char *name, int age)
 {
   struct person* new = (person*)malloc(sizeof(struct person));
-  if(new == NULL)
-    return;
-  new->name = name;
+  new->name = malloc(sizeof(char)*strlen(name)+1);
+  strcpy(new->name, name);
   new->age = age;
   new->next = head;
-
-  return new;
+  head = new;
+  return head;
 }
 
 static person* insert_end(struct person* head, char *name, int age)
@@ -42,7 +41,7 @@ static person* insert_end(struct person* head, char *name, int age)
   struct person* prev = head;
 
   new->name = malloc(sizeof(char)*strlen(name)+1);
-  new->name = name;
+  strcpy(new->name, name);
   new->age = age;
 
   if(head == NULL)
@@ -64,13 +63,14 @@ static person* insert_sorted(struct person* head, char *name, int age, int (*com
   struct person* new = (person*)malloc(sizeof(struct person));
 
   new->name = malloc(sizeof(char)*strlen(name)+1);
-  new->name = name;
+  strcpy(new->name, name);
   new->age = age;
 
   if (head == NULL || compare_people(new, head) < 0)
   {
     new->next = head;
-    return new;
+    head = new;
+    return head;
   }
   else
   {
@@ -130,6 +130,7 @@ int main(int argc, char** argv)
   while(start != NULL)
   {
     head = start->next;
+    free(start->name);
     free(start);
     start = head;
   }
