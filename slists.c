@@ -3,9 +3,7 @@
 #include <stdlib.h>
 #include "slists.h"
 
-
-
-static person* insert_start(struct person* head, char *name, int age)
+struct person* insert_start(struct person* head, char *name, int age)
 {
   struct person* new = (person*)malloc(sizeof(struct person));
   new->name = malloc(sizeof(char)*strlen(name)+1);
@@ -16,7 +14,7 @@ static person* insert_start(struct person* head, char *name, int age)
   return head;
 }
 
-static person* insert_end(struct person* head, char *name, int age)
+struct person* insert_end(struct person* head, char *name, int age)
 {
   struct person* new = (person*)malloc(sizeof(struct person));
   struct person* prev = head;
@@ -39,7 +37,7 @@ static person* insert_end(struct person* head, char *name, int age)
   return head;
 }
 
-static person* insert_sorted(struct person* head, char *name, int age, int (*compare_people)(struct person*, struct person*))
+struct person* insert_sorted(struct person* head, char *name, int age, int (*compare_people)(struct person*, struct person*))
 {
   struct person* new = (person*)malloc(sizeof(struct person));
 

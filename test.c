@@ -1,15 +1,15 @@
-#include "slists.h"
-#include "data.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "slists.h"
+#include "data.h"
 
-static int compare_people_by_name(struct person* p1, struct person* p2)
+int compare_people_by_name(struct person* p1, struct person* p2)
 {
   return strcmp(p1->name, p2->name);
 }
 
-static int compare_people_by_age(struct person* p1, struct person* p2)
+int compare_people_by_age(struct person* p1, struct person* p2)
 {
   if(p1->age < p2->age) {return -1;}
   else if(p1->age > p2->age) {return 1;}

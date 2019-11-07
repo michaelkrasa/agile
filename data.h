@@ -6,4 +6,3 @@ int ages[HOW_MANY] = { 22, 24, 106, 6, 18, 32, 24 };
 int person_type[HOW_MANY] = { 1,1,2,2,1,0,0 };
 char *info[HOW_MANY] = { "Computer Science", "Artificial Intelligence", "",
 "", "HCI", "Kilburn 2.72", "QL" };
-
