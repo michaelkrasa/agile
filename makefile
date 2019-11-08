@@ -31,7 +31,7 @@ RUN=valgrind
 MODE=-m 0
 
 testdarray: darray 
-        $(RUN) ./speller_darray -d data/sample-dictionary -vvv $(MODE) data/sample-file
+	$(RUN) ./speller_darray -d data/sample-dictionary -vvv $(MODE) data/sample-file
 
 # small dictionaries that give trees that are unbalanced in various ways
 testtree: bstree

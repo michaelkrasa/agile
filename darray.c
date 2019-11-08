@@ -85,6 +85,8 @@ bool find (Value_Type value, struct darray* arr)
     //TODO implement binary search through arr->cells
 
   }
+  // To supress warning, default return value
+  return false;
 }
 
 // You can make any changes you want to this function
