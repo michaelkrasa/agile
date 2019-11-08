@@ -41,7 +41,6 @@ static person* insert_end(struct person* head, char *name, int age)
   struct person* new = (person*)malloc(sizeof(struct person));
   struct person* prev = head;
 
-  new->name = malloc(sizeof(char)*strlen(name)+1);
   new->name = name;
   new->age = age;
 
@@ -63,7 +62,6 @@ static person* insert_sorted(struct person* head, char *name, int age, int (*com
 {
   struct person* new = (person*)malloc(sizeof(struct person));
 
-  new->name = malloc(sizeof(char)*strlen(name)+1);
   new->name = name;
   new->age = age;
 
