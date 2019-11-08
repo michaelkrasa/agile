@@ -28,40 +28,44 @@ static person* insert_start(struct person* head, char *name, int age)
 {
   struct person* new = (person*)malloc(sizeof(struct person));
   if(new == NULL)
-    return;
+    return 1;
   new->name = name;
   new->age = age;
   new->next = head;
 
-  return new;
+  return new; // new head
 }
 
 static person* insert_end(struct person* head, char *name, int age)
 {
   struct person* new = (person*)malloc(sizeof(struct person));
   struct person* prev = head;
+  if(new == NULL)
+    return 1;
 
   new->name = name;
   new->age = age;
 
+  // If the Linked List is empty
   if(head == NULL)
   {
     new->next = head;
     head = new;
-    return head;
+    return head; // new head
   }
-
+  // Else move to the last node
   while (prev->next != NULL)
     prev = prev->next;
 
   prev->next = new;
-  return head;
+  return head; // new head
 }
 
 static person* insert_sorted(struct person* head, char *name, int age, int (*compare_people)(struct person*, struct person*))
 {
   struct person* new = (person*)malloc(sizeof(struct person));
-
+  if(new == NULL)
+    return 1;
   new->name = name;
   new->age = age;
 
@@ -93,6 +97,7 @@ int main(int argc, char** argv)
   // Starting with an empty list
   struct person* head = NULL;
 
+  // Sorting out command line args
   int i = 0;
   for (i=0;i < HOW_MANY; i++)
   {
@@ -121,12 +126,11 @@ int main(int argc, char** argv)
     printf("Name: %s, age: %d\n", head->name, head->age);
     head = head->next;
   }
-  // Resetting the head to be used in the next block
-  head = start;
 
   // Freeing the memory
   while(start != NULL)
   {
+    // Saving start before we free it
     head = start->next;
     free(start);
     start = head;
