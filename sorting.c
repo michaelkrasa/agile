@@ -7,11 +7,11 @@ void sort(struct darray* arr, int select){
 
   switch(select){
     case BINARY_SEARCH_ONE   : insertion_sort(arr); break;
-    case BINARY_SEARCH_TWO   : quick_sort(arr); break;
+    case BINARY_SEARCH_TWO   : quick_sort(arr, 0, arr->size - 1); break;
     case BINARY_SEARCH_THREE :
     case BINARY_SEARCH_FOUR  :
     case BINARY_SEARCH_FIVE  :  // Add your own choices here
-    default: 
+    default:
       fprintf(stderr,
               "The value %d is not supported in sorting.c\n",
               select);
@@ -29,15 +29,62 @@ void swap(char* *a, char* *b)
         *b = temp;
 }
 
+int partition(struct darray* arr, int low, int high)
+{
+  // Set initial pivot point to be the highest element in the array
+  int pivot = arr->cells[high];
+  int i = low - 1;
+  int j;
 
-void insertion_sort(struct darray* arr){
- fprintf(stderr, "Not implemented\n");
- exit(-1);
+  for (j = low; j <= high - 1; j++)
+  {
+    if (arr->cells[j] <= pivot)
+    {
+      i++;
+      swap(&arr->cells[i], &arr->cells[j]);
+    }
+  }
+  swap(&arr->cells[i + 1], &arr->cells[high]);
+  return (i + 1);
 }
 
 
-// Hint: you probably want to define a helper function for the recursive call
-void quick_sort(struct darray* arr) {
- fprintf(stderr, "Not implemented\n");
- exit(-1);
+void insertion_sort(struct darray* arr)
+{
+  // The element to be inserted into the sorted list
+  int key;
+  // The index in the original list
+  int index;
+  // The index in the sorted list
+  int sortedListIndex;
+
+  // Start with the second element in the original list
+  for (index = 1; index < arr->size; index++)
+  {
+    // Use that element as key
+    key = arr->cells[index];
+
+    // Start looping from the previous element until the start of the list
+    // And move any element greater than the key to the right of the list
+    sortedListIndex = index-1;
+    while (sortedListIndex >= 0 && arr->cells[sortedListIndex] > key)
+    {
+      arr->cells[sortedListIndex+1] = arr->cells[sortedListIndex];
+      sortedListIndex = sortedListIndex - 1;
+    }
+    // Insert the key after the first element that is not greater than itself
+    arr->cells[sortedListIndex + 1] = key;
+  }
+}
+
+// Quick sort implementation
+void quick_sort(struct darray* arr, int low, int high)
+{
+  if (low < high)
+  {
+    int pivot = partition(arr, low, high);
+
+    quick_sort(arr, low, pivot - 1);
+    quick_sort(arr, pivot + 1, high);
+  }
 }

@@ -3,6 +3,7 @@
 #include <ctype.h>
 #define __USE_BSD
 #include <string.h>
+#include <math.h>
 
 #include "global.h"
 #include "darray.h"
@@ -15,10 +16,10 @@ int compare(Value_Type a, Value_Type b){
 }
 
 
-struct darray* initialize_set (int size)  
+struct darray* initialize_set (int size)
 {
 
-  struct darray* arr = malloc(sizeof(struct darray)); 
+  struct darray* arr = malloc(sizeof(struct darray));
   check(arr);
   arr->cells = (Value_Type*) (malloc(sizeof(Value_Type)*size));
   check(arr->cells);
@@ -58,7 +59,7 @@ struct darray* insert (Value_Type value, struct darray* arr)
   }
 
   arr->cells[arr->size] = strdup(value);
-  arr->size++; 
+  arr->size++;
 
   // changing the array means it may no longer be sorted
   arr->sorted = false;
@@ -68,10 +69,17 @@ struct darray* insert (Value_Type value, struct darray* arr)
 
 bool find (Value_Type value, struct darray* arr)
 {
+  // Linear search implementation
   if(mode == LINEAR_SEARCH){
-    //TODO implement linear search through arr->cells
+    int i;
+    for(i=0; i < arr->size; i++)
+    {
+      if(value == arr->cells[i])
+        return true;
+    }
+
   }
-  else{ // Binary Search 
+  else{ // Binary Search
     if(!arr->sorted){
       if(verbose > 0){
         printf("Dynamic Array not sorted, sorting...\n");
@@ -82,12 +90,27 @@ bool find (Value_Type value, struct darray* arr)
       }
       arr->sorted = true;
     }
-    //TODO implement binary search through arr->cells
-
-  }
+    // Binary search
+    int L = 0;             // Left element
+    int R = arr->size - 1; // Right element
+    int m;                 // Middle element
+    // While there are elements in the array to compare our value to
+    while(L <= R)
+    {
+      m = floor((L+R) / 2); // using floor function to get an int
+      if(arr->cells[m] < value)
+        L = m + 1;  // Left boundary of our subarray moves
+      else if(arr->cells[m] > value)
+        R = m - 1;  // Right boundary of our subarray moves
+      else
+        return true; // sorted!
+    } // while
+    // If element is not found in the list and the while loop terminates
+    return false;
+  } // Binary search
   // To supress warning, default return value
   return false;
-}
+} // find
 
 // You can make any changes you want to this function
 void print_set (struct darray* arr)
