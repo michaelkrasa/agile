@@ -67,7 +67,7 @@ void insertion_sort(struct darray* arr)
     // Start looping from the previous element until the start of the list
     // And move any element greater than the key to the right of the list
     sortedListIndex = index-1;
-    while (sortedListIndex >= 0 && compare(arr->cells[sortedListIndex], key) < 0)
+    while (sortedListIndex >= 0 && compare(arr->cells[sortedListIndex], key) > 0)
     {
       arr->cells[sortedListIndex+1] = arr->cells[sortedListIndex];
       sortedListIndex = sortedListIndex - 1;
