@@ -32,13 +32,13 @@ void swap(char* *a, char* *b)
 int partition(struct darray* arr, int low, int high)
 {
   // Set initial pivot point to be the highest element in the array
-  int pivot = arr->cells[high];
+  Value_Type pivot = arr->cells[high];
   int i = low - 1;
   int j;
 
   for (j = low; j <= high - 1; j++)
   {
-    if (arr->cells[j] <= pivot)
+    if (compare(arr->cells[j], pivot) <= 0)
     {
       i++;
       swap(&arr->cells[i], &arr->cells[j]);
@@ -52,7 +52,7 @@ int partition(struct darray* arr, int low, int high)
 void insertion_sort(struct darray* arr)
 {
   // The element to be inserted into the sorted list
-  int key;
+  Value_Type key;
   // The index in the original list
   int index;
   // The index in the sorted list
@@ -67,7 +67,7 @@ void insertion_sort(struct darray* arr)
     // Start looping from the previous element until the start of the list
     // And move any element greater than the key to the right of the list
     sortedListIndex = index-1;
-    while (sortedListIndex >= 0 && arr->cells[sortedListIndex] > key)
+    while (sortedListIndex >= 0 && compare(arr->cells[sortedListIndex], key) < 0)
     {
       arr->cells[sortedListIndex+1] = arr->cells[sortedListIndex];
       sortedListIndex = sortedListIndex - 1;

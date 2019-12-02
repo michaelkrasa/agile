@@ -74,23 +74,24 @@ bool find (Value_Type value, struct darray* arr)
     int i;
     for(i=0; i < arr->size; i++)
     {
-      if(value == arr->cells[i])
+      if(compare(arr->cells[i], value) == 0)
         return true;
     }
-
   }
   else{ // Binary Search
     if(!arr->sorted){
       if(verbose > 0){
-        printf("Dynamic Array not sorted, sorting...\n");
+        //printf("Dynamic Array not sorted, sorting...\n");
       }
       sort(arr,mode);
       if(verbose > 0){
-        printf("Dynamic Array sorted\n");
+        //printf("Dynamic Array sorted\n");
+      }
+      if(verbose > 2){
+        print_set(arr);
       }
       arr->sorted = true;
     }
-    // Binary search
     int L = 0;             // Left element
     int R = arr->size - 1; // Right element
     int m;                 // Middle element
@@ -98,9 +99,9 @@ bool find (Value_Type value, struct darray* arr)
     while(L <= R)
     {
       m = floor((L+R) / 2); // using floor function to get an int
-      if(arr->cells[m] < value)
+      if(compare(arr->cells[m], value) < 0)
         L = m + 1;  // Left boundary of our subarray moves
-      else if(arr->cells[m] > value)
+      else if(compare(arr->cells[m], value) > 0)
         R = m - 1;  // Right boundary of our subarray moves
       else
         return true; // sorted!
