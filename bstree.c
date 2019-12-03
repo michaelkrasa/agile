@@ -13,8 +13,7 @@ int compare(Value_Type a, Value_Type b){
   return strcmp(a,b);
 }
 
-
-struct bstree* initialize_set (int size)  
+struct bstree* initialize_set (int size)
 {
   // An empty tree is represented by NULL
   return NULL;
@@ -34,25 +33,41 @@ int size(struct bstree* tree){
     return size(tree->left) + size(tree->right);
   }
   return 0;
-} 
+}
 
 struct bstree* insert (Value_Type value, struct bstree* tree)
 {
   if(tree){
-    // TODO if tree is not NULL then insert into the correct sub-tree
+    // If tree is not NULL then insert into the correct sub-tree
+    if (compare(value, tree->value) < 0)
+      { tree->left = strndup(value); tree->height++; }
+    else if(compare(value, tree->value) > 0)
+      { tree->right = strndup(value); tree->height++; }
   }
   else{
-    // TODO otherwise create a new node containing the value
+    // Otherwise create a new node containing the value
+    struct bstree* tree = malloc(sizeof(struct bstree));
+    tree->value = value;
+    tree->left = NULL;
+    tree->right = NULL;
+    tree->height = 0;
   }
+  printf("Tree size after insert: %d\n", size(tree));
   return tree;
 }
 
 bool find (Value_Type value, struct bstree* tree)
 {
   if(tree){
-    //TODO complete the find function
+    // Complete the find function - same as in darray
+    if (compare(value, tree->value) < 0)
+      return find(value, tree->left);
+    else if(compare(value, tree->value) > 0)
+      return find(value, tree->right);
+    else
+      return true;
   }
-  // if tree is NULL then it contains no values
+  // If tree is NULL then it contains no values
   return false;
 }
 
@@ -65,7 +80,7 @@ void print_set_recursive(struct bstree* tree, int depth)
     print_set_recursive(tree->left,depth+1);
     print_set_recursive(tree->right,depth+1);
   }
-} 
+}
 // You can update this if you want
 void print_set (struct bstree* tree)
 {
@@ -75,5 +90,5 @@ void print_set (struct bstree* tree)
 
 void print_stats (struct bstree* tree)
 {
- // TODO update code to record and print statistics
+  printf("The height of the tree is: %d", tree->height);
 }

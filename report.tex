@@ -1,7 +1,7 @@
 \documentclass{article}
 
 \title{COMP26120 Lab 5}
-\author{?}
+\author{Michael Krasa}
 
 \begin{document}
 \maketitle
@@ -11,24 +11,64 @@
 \section{Complexity Analysis}
 \label{sec:complexity}
 
+- Worst, best - comment on average
+- Mention that its data dependant
+- Talk about some obscure scenarios - reverse sorted/already sorted
 
-\subsection{Iteration Sort}
+
+\subsection{Insertion Sort}
+
+Insertion sort is said to be very efficient for small data sets just like other quadratic sorting algorithms but gets seriously slow with larger arrays. Its worst case scenario is \theta(n2) comparisons and swaps. The insertion sort takes the maximum amount of time if elements are sorted in reverse order. In this case the inner loop will have to shift all the sorted section of the array before inserting with each iteration.
+
+It takes minimum time \theta(n) (linear time) when elements are already sorted. During each iteration the element is only compared with the high element and move onto the next one and finishes.
+
+The average case is still \theta(n2), same as the worst case scenario, since the algorithm has to do a lot of time-consuming comparing, swapping and most importantly the index changing for all elements. For that very reason insertion sort is very useful when input array is almost sorted, only few elements are misplaced in complete big array. 
+
+Stable - does not change the relative order of elements with equal keys
+Online - can sort a list as it receives it
 
 \subsection{Quick Sort}
 
+- Must define the recurrence equation and then solve it using something from the lecture
+
+Quicksort is a divide and conquer algorithm, same as merge sort which we discussed in the lectures. It divides an array into two smaller sub-arrays. It can then sort the sub-arrays using recursion. 
+
+We can write the time for the quick sort as following:
+T(n) = T(k) + T(n-k-1) + \theta(n)
+
+"T(k)" and "T(n-k-1)" are for two recursive calls and the last term is for the partition process. k represents the number of elements which are smaller than pivot in that recursive call. The time taken by quick sort depends on the input array (obviously) but also on partition strategy.
+
+The best case occurs when the partition process always picks the median element as pivot. That way we would have two (near)equal lenght sub-arrays where the next pivot is easily determined. However, if a pivot isn't the median it doesn't mean that it will be that much slower, if at all. The time for the best case is \theta(n log n).
+
+T(n) = 2T(n/2) + \theta(n)
+
+The worst case occurs when the partition process picks the greatest or smallest element as pivot. If that were to happen the program would waste time by doing a an n number of passes before moving the pivot again. The time for that is \theta(n2).
+
+T(n) = T(0) + T(n-1) + \theta(n)
 
 %====================================
 \section{Experimental Analysis}
 \label{sec:initialExperiments}
 
-In this section we consider the question
+In this section we consider the question:
 	\begin{quote}
 	Under what conditions is it better to perform linear search rather than binary search?
 	\end{quote}
 
 \subsection{Experimental Design}
 
+Before we design our experiment we have to keep several things in mind. First being the core difference between these two algorithms which is that binary search requires a sorted dictionary to perform as well as it does.
+
+Knowing this, designing an experiment where this condition is true is quite simple. All we have to do is have an unsorted/random dictionary. This means that a binary search algorithm will have to sort the dictionary first which is time consuming, especially in larger dictionaries. We also have to decide on what sorting algorithm we'll use for the data set. Let's use quick sort because its best case scenario isn't necessarily an unprobable outlier and the algorithm can perform very close to it.
+
+In this experiment we make the assumption that all the queries are in the dictionary, just to make the two algorithms a bit more closely matched.
+
+
 \subsection{Experimental Results}
+
+All we have to do now is put our two equations in a graphic calculator and see for ourselves. Since binary search is linear we do not need to include a sorting time complexity in its function, however, we have to do just that for the binary search.
+Linear = \theta(n)
+Binary = \theta(n log n) + \theta(log n)
 
 
 % PART 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -48,3 +88,4 @@ Under what conditions are different implementations of the dictionary data struc
 
 
 \end{document}
+

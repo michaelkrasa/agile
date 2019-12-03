@@ -10,7 +10,7 @@ void sort(struct darray* arr, int select){
     case BINARY_SEARCH_TWO   : quick_sort(arr, 0, arr->size - 1); break;
     case BINARY_SEARCH_THREE :
     case BINARY_SEARCH_FOUR  :
-    case BINARY_SEARCH_FIVE  :  // Add your own choices here
+    case BINARY_SEARCH_FIVE  :
     default:
       fprintf(stderr,
               "The value %d is not supported in sorting.c\n",
@@ -29,6 +29,7 @@ void swap(char* *a, char* *b)
         *b = temp;
 }
 
+// Most important part of the quick sort algorithm
 int partition(struct darray* arr, int low, int high)
 {
   // Set initial pivot point to be the highest element in the array
@@ -38,16 +39,17 @@ int partition(struct darray* arr, int low, int high)
 
   for (j = low; j <= high - 1; j++)
   {
+    // If element is smaller than the pivot
     if (compare(arr->cells[j], pivot) <= 0)
     {
-      i++;
+      i++; // Increment the index of the smaller element
       swap(&arr->cells[i], &arr->cells[j]);
     }
   }
+  // Swap pivot and i+1
   swap(&arr->cells[i + 1], &arr->cells[high]);
-  return (i + 1);
+  return (i + 1); // Our new pivot for next pass
 }
-
 
 void insertion_sort(struct darray* arr)
 {
@@ -82,8 +84,10 @@ void quick_sort(struct darray* arr, int low, int high)
 {
   if (low < high)
   {
+    // Partition and decide the pivot
     int pivot = partition(arr, low, high);
 
+    // Recursive call for each side of the pivot
     quick_sort(arr, low, pivot - 1);
     quick_sort(arr, pivot + 1, high);
   }
