@@ -24,7 +24,6 @@ void tidy(struct bstree* tree)
   if(tree){
     free(tree->left);
     free(tree->right);
-    free(tree);
   }
 }
 
@@ -40,9 +39,9 @@ struct bstree* insert (Value_Type value, struct bstree* tree)
   if(tree){
     // If tree is not NULL then insert into the correct sub-tree
     if (compare(value, tree->value) < 0)
-      { tree->left = strdup(value); tree->height++; }
+      { tree->left->value = strdup(value); tree->height++; }
     else if(compare(value, tree->value) > 0)
-      { tree->right = strdup(value); tree->height++; }
+      { tree->right->value = strdup(value); tree->height++; }
   }
   else{
     // Otherwise create a new node containing the value
