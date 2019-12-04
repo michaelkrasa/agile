@@ -24,8 +24,8 @@ void tidy(struct bstree* tree)
   if(tree){
     tidy(tree->left);
     tidy(tree->right);
-    free(tree->left);
-    free(tree->right);
+    free(tree->value);
+    free(tree);
   }
 }
 
@@ -64,12 +64,10 @@ struct bstree* insert(Value_Type value, struct bstree* tree)
     // Otherwise create a new node containing the value
     tree = malloc(sizeof(struct bstree));
     tree->value = strdup(value);
-    tree->height = height(tree);
+    tree->height = 1;
     tree->left = NULL;
     tree->right = NULL;
   }
-
-  printf("Tree size after insert: %d\n", size(tree));
   return tree;
 }
 
@@ -108,5 +106,7 @@ void print_set (struct bstree* tree)
 
 void print_stats (struct bstree* tree)
 {
-  printf("The height of the tree is: %d\n", height(tree));
+  printf("Height of the tree is: %d\n", height(tree));
+  printf("Size of the tree is: %d\n", size(tree));
+
 }
