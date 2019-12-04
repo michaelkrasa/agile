@@ -39,9 +39,9 @@ struct bstree* insert (Value_Type value, struct bstree* tree)
   if(tree){
     // If tree is not NULL then insert into the correct sub-tree
     if (compare(value, tree->value) < 0)
-      { tree->left->value = strdup(value); tree->height++; }
+      { tree->left = insert(value, tree->left); tree->height++; }
     else if(compare(value, tree->value) > 0)
-      { tree->right->value = strdup(value); tree->height++; }
+      { tree->right = insert(value, tree->right); tree->height++; }
   }
   else{
     // Otherwise create a new node containing the value
