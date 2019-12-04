@@ -45,7 +45,7 @@ struct bstree* insert (Value_Type value, struct bstree* tree)
   }
   else{
     // Otherwise create a new node containing the value
-    struct bstree* tree = malloc(sizeof(struct bstree));
+    struct bstree* tree = (struct bstree*)malloc(sizeof(struct bstree));
     tree->value = value;
     tree->left = NULL;
     tree->right = NULL;
