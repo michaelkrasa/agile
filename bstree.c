@@ -22,6 +22,8 @@ struct bstree* initialize_set (int size)
 void tidy(struct bstree* tree)
 {
   if(tree){
+    tidy(tree->left);
+    tidy(tree->right);
     free(tree->left);
     free(tree->right);
   }
@@ -34,22 +36,36 @@ int size(struct bstree* tree){
   return 0;
 }
 
+int height(struct bstree* tree)
+{
+  if(tree)
+  {
+    int leftHeight = height(tree->left);
+    int rightHeight = height(tree->right);
+
+    if(leftHeight > rightHeight)
+      return (leftHeight + 1);
+    else return (rightHeight + 1);
+  }
+  else
+    return 0;
+}
+
 struct bstree* insert (Value_Type value, struct bstree* tree)
 {
   if(tree){
     // If tree is not NULL then insert into the correct sub-tree
     if (compare(value, tree->value) < 0)
-       tree->left = insert(value, tree->left); //tree->height++; }
+       tree->left = insert(value, tree->left);
     else if(compare(value, tree->value) > 0)
-       tree->right = insert(value, tree->right); //tree->height++; }
+       tree->right = insert(value, tree->right);
   }
   else{
     // Otherwise create a new node containing the value
     struct bstree* tree = (struct bstree*)malloc(sizeof(struct bstree));
-    tree->value = value;
+    tree->value = strdup(value);
     tree->left = NULL;
     tree->right = NULL;
-    tree->height = 0;
   }
   printf("Tree size after insert: %d\n", size(tree));
   return tree;
