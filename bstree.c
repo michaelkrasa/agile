@@ -90,7 +90,8 @@ bool find (Value_Type value, struct bstree* tree)
 void print_set_recursive(struct bstree* tree, int depth)
 {
   if(tree){
-    for(unsigned i=0;i<depth;i++){ printf(" "); }
+    unsigned i;
+    for(i=0;i<depth;i++){ printf(" "); }
     printf("%s\n",tree->value);
     print_set_recursive(tree->left,depth+1);
     print_set_recursive(tree->right,depth+1);
@@ -105,5 +106,5 @@ void print_set (struct bstree* tree)
 
 void print_stats (struct bstree* tree)
 {
-  printf("The height of the tree is: %d", tree->height);
+  printf("The height of the tree is: %d", height(tree));
 }
