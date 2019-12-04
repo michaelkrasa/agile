@@ -51,11 +51,10 @@ int height(struct bstree* tree)
     return 0;
 }
 
-struct bstree* insert (Value_Type value, struct bstree* tree)
+struct bstree* insert(Value_Type value, struct bstree* tree)
 {
   if(tree){
     // If tree is not NULL then insert into the correct sub-tree
-    printf("yadvfdvay 5");
     if (compare(value, tree->value) < 0)
        tree->left = insert(value, tree->left);
     else if(compare(value, tree->value) > 0)
@@ -63,17 +62,18 @@ struct bstree* insert (Value_Type value, struct bstree* tree)
   }
   else{
     // Otherwise create a new node containing the value
-    struct bstree* tree = malloc(sizeof(struct bstree));
+    tree = malloc(sizeof(struct bstree));
     tree->value = strdup(value);
     tree->height = height(tree);
-    tree->left = initialize_set(0);
-    tree->right = initialize_set(0);
+    tree->left = NULL;
+    tree->right = NULL;
   }
+
   printf("Tree size after insert: %d\n", size(tree));
   return tree;
 }
 
-bool find (Value_Type value, struct bstree* tree)
+bool find(Value_Type value, struct bstree* tree)
 {
   if(tree){
     // Complete the find function - same as in darray
