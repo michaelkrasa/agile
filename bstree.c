@@ -101,10 +101,10 @@ void print_set_recursive(struct bstree* tree, int depth)
 void print_set (struct bstree* tree)
 {
  printf("Tree:\n");
- print_set_recursive(tree,0);
+ print_set_recursive(tree,height(tree));
 }
 
 void print_stats (struct bstree* tree)
 {
-  printf("The height of the tree is: %d", height(tree));
+  printf("The height of the tree is: %d\n", height(tree));
 }
