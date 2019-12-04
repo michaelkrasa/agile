@@ -31,7 +31,7 @@ void tidy(struct bstree* tree)
 
 int size(struct bstree* tree){
   if(tree){
-    return size(tree->left) + size(tree->right);
+    return (1 + size(tree->left) + size(tree->right));
   }
   return 0;
 }
@@ -55,6 +55,7 @@ struct bstree* insert (Value_Type value, struct bstree* tree)
 {
   if(tree){
     // If tree is not NULL then insert into the correct sub-tree
+    printf("yadvfdvay 5");
     if (compare(value, tree->value) < 0)
        tree->left = insert(value, tree->left);
     else if(compare(value, tree->value) > 0)
@@ -62,10 +63,11 @@ struct bstree* insert (Value_Type value, struct bstree* tree)
   }
   else{
     // Otherwise create a new node containing the value
-    struct bstree* tree = (struct bstree*)malloc(sizeof(struct bstree));
+    struct bstree* tree = malloc(sizeof(struct bstree));
     tree->value = strdup(value);
-    tree->left = NULL;
-    tree->right = NULL;
+    tree->height = height(tree);
+    tree->left = initialize_set(0);
+    tree->right = initialize_set(0);
   }
   printf("Tree size after insert: %d\n", size(tree));
   return tree;
