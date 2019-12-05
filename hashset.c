@@ -56,8 +56,7 @@ struct hashset* resize(struct hashset* set)
     newSet->cells[i].element = strdup(set->cells[i].element);
     newSet->cells[i].state = set->cells[i].state;
   }
-  free(set->cells);
-  free(set);
+  tidy(set);
   return newSet;
 }
 
@@ -77,15 +76,13 @@ int generateHash(Value_Type value)
 
 void tidy(struct hashset* set)
 {
-  /*
-  // TODO tidy up
+  // Tidy up
   free(set->cells);
   free(set);
-  */
 }
 
 int size(struct hashset* set){
-  // TODO return number of values stored in table
+  // Return number of values stored in table
   int i;
   int noOfCells = 0;
   for(i = 0; i < set->size; i++)
@@ -97,7 +94,7 @@ int size(struct hashset* set){
 
 struct hashset* insert (Value_Type value, struct hashset* set)
 {
-  // TODO code for inserting into hash table
+  // Code for inserting into hash table
   int hash = generateHash(value);
   while(set->cells[hash].state != 0)
   {
@@ -108,12 +105,13 @@ struct hashset* insert (Value_Type value, struct hashset* set)
 
   set->cells[hash].element = strdup(value);
   set->cells[hash].state = 1;
+
   return set;
 }
 
 bool find (Value_Type value, struct hashset* set)
 {
-  // TODO code for looking up in hash table
+  // Code for looking up in hash table
   int hash = generateHash(value);
   while(set->cells[hash].state != 0)
   {
@@ -130,7 +128,7 @@ bool find (Value_Type value, struct hashset* set)
 
 void print_set (struct hashset* set)
 {
-  // TODO code for printing hash table
+  // Code for printing hash table
   int i;
   for(i = 0; i < set->size; i++)
   {
