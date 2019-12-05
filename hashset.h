@@ -29,7 +29,7 @@ struct  hashset
   cell *cells;
   int size;
   int num_entries; // number of cells in_use
-  //TODO add anything else that you need
+  // TODO add anything else that you need
 };
 
 struct hashset* initialize_set (int size);

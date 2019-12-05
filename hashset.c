@@ -43,6 +43,24 @@ struct hashset* initialize_set (int size)
   return set;
 }
 
+struct hashset* resize(struct hashset* set)
+{
+  struct hashset* newSet = malloc(sizeof(struct hashset));
+  newSet->cells = malloc(set->size * 2 * sizeof(cell));
+  newSet->size = set->size * 2;
+  newSet->num_entries = set->num_entries;
+
+  int i;
+  for(i=0; i < set->size; i++)
+  {
+    newSet->cells[i].element = strdup(set->cells[i].element);
+    newSet->cells[i].state = set->cells[i].state;
+  }
+  free(set->cells);
+  free(set);
+  return newSet;
+}
+
 int generateHash(Value_Type value)
 {
   int hash = 0;
@@ -59,7 +77,11 @@ int generateHash(Value_Type value)
 
 void tidy(struct hashset* set)
 {
-// TODO tidy up
+  /*
+  // TODO tidy up
+  free(set->cells);
+  free(set);
+  */
 }
 
 int size(struct hashset* set){
@@ -79,30 +101,14 @@ struct hashset* insert (Value_Type value, struct hashset* set)
   int hash = generateHash(value);
   while(set->cells[hash].state != 0)
   {
-    //if(hash = set->size - 1)
+    if(hash == set->size - 1)
+      set = resize(set);
     hash++;
   }
 
   set->cells[hash].element = strdup(value);
   set->cells[hash].state = 1;
   return set;
-}
-
-struct hashset* resize(struct hashset* set)
-{
-  struct hashset* newSet = malloc(sizeof(struct hashset));
-  newSet->cells = malloc(set->size * 2 * sizeof(cell));
-  newSet->size = set->size * 2;
-  newSet->num_entries = set->num_entries;
-
-  int i;
-  for(i=0; i < set->size; i++)
-  {
-    newSet->cells[i].element = strdup(set->cells[i].element);
-    newSet->cells[i].state = set->cells[i].state;
-  }
-  free(set);
-  return newSet;
 }
 
 bool find (Value_Type value, struct hashset* set)
