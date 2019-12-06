@@ -23,7 +23,6 @@ typedef struct
   enum {empty, in_use, deleted} state;
 } cell;
 
-
 struct  hashset
 {
   cell *cells;
