@@ -29,7 +29,9 @@ struct  hashset
   cell *cells;
   int size;
   int num_entries; // number of cells in_use
-  // TODO add anything else that you need
+  int totCol;
+  float collisionsPerInsertion;
+
 };
 
 struct hashset* initialize_set (int size);

@@ -1,4 +1,6 @@
 \documentclass{article}
+\usepackage{graphicx}
+\graphicspath{}
 
 \title{COMP26120 Lab 5}
 \author{Michael Krasa}
@@ -18,14 +20,13 @@
 
 \subsection{Insertion Sort}
 
-Insertion sort is said to be very efficient for small data sets just like other quadratic sorting algorithms but gets seriously slow with larger arrays. Its worst case scenario is \theta(n2) comparisons and swaps. The insertion sort takes the maximum amount of time if elements are sorted in reverse order. In this case the inner loop will have to shift all the sorted section of the array before inserting with each iteration.
+Insertion sort is said to be very efficient for small data sets just like other quadratic sorting algorithms but gets seriously slow with larger arrays. Its worst case scenario is \theta(n^2) comparisons and swaps. The insertion sort takes the maximum amount of time if elements are sorted in reverse order. In this case the inner loop will have to shift all the sorted section of the array before inserting with each iteration. It is a stable sorting algorithm.
 
 It takes minimum time \theta(n) (linear time) when elements are already sorted. During each iteration the element is only compared with the high element and move onto the next one and finishes.
 
-The average case is still \theta(n2), same as the worst case scenario, since the algorithm has to do a lot of time-consuming comparing, swapping and most importantly the index changing for all elements. For that very reason insertion sort is very useful when input array is almost sorted, only few elements are misplaced in complete big array. 
+The average case is still \theta(n^2), same as the worst case scenario, since the algorithm has to do a lot of time-consuming comparing, swapping and most importantly the index changing for all elements. For that very reason insertion sort is very useful when input array is almost sorted, only few elements are misplaced in complete big array. 
 
-Stable - does not change the relative order of elements with equal keys
-Online - can sort a list as it receives it
+
 
 \subsection{Quick Sort}
 
@@ -42,7 +43,7 @@ The best case occurs when the partition process always picks the median element 
 
 T(n) = 2T(n/2) + \theta(n)
 
-The worst case occurs when the partition process picks the greatest or smallest element as pivot. If that were to happen the program would waste time by doing a an n number of passes before moving the pivot again. The time for that is \theta(n2).
+The worst case occurs when the partition process picks the greatest or smallest element as pivot. If that were to happen the program would waste time by doing a an n number of passes before moving the pivot again. The time for that is \theta(n^2).
 
 T(n) = T(0) + T(n-1) + \theta(n)
 
@@ -59,16 +60,22 @@ In this section we consider the question:
 
 Before we design our experiment we have to keep several things in mind. First being the core difference between these two algorithms which is that binary search requires a sorted dictionary to perform as well as it does.
 
-Knowing this, designing an experiment where this condition is true is quite simple. All we have to do is have an unsorted/random dictionary. This means that a binary search algorithm will have to sort the dictionary first which is time consuming, especially in larger dictionaries. We also have to decide on what sorting algorithm we'll use for the data set. Let's use quick sort because its best case scenario isn't necessarily an unprobable outlier and the algorithm can perform very close to it.
+Knowing this, designing an experiment where this condition is true is quite simple. All we have to do is have an unsorted dictionary. This means that a binary search algorithm will have to sort the dictionary first which is time consuming, especially in larger dictionaries. We also have to decide on what sorting algorithm we'll use for the data set. Let's use quick sort because its best case scenario isn't necessarily an unprobable outlier and the algorithm can perform very close to it.
 
 In this experiment we make the assumption that all the queries are in the dictionary, just to make the two algorithms a bit more closely matched.
 
 
 \subsection{Experimental Results}
 
-All we have to do now is put our two equations in a graphic calculator and see for ourselves. Since binary search is linear we do not need to include a sorting time complexity in its function, however, we have to do just that for the binary search.
-Linear = \theta(n)
-Binary = \theta(n log n) + \theta(log n)
+All we have to do now is put our two equations in a graphic calculator and see for ourselves. Since binary search is linear we do not need to include a sorting time complexity in its function, however, we have to do just that for the binary search, I am using the average case scenario which is usually very close to the worst case one.
+Linear search complexity = \theta(n)
+Binary search complexity + quicksort = \theta(n log n) + \theta(log n)
+
+\includegraphics{graph1.png}
+
+
+
+Looking at figure 1 we can determine that given that the input is unsorted, it is better to use linear search for a dictionary that holds at least 5 elements. Since simply sorting the entire input alone would take longer than linear search a binary search approach is never the better option.
 
 
 % PART 3 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

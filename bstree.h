@@ -11,7 +11,7 @@ struct bstree
   Value_Type value;
   struct bstree* left;
   struct bstree* right;
-  int height;
+  int comparisons;
 };
 
 struct bstree* initialize_set (int size);

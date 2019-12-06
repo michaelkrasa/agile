@@ -51,22 +51,38 @@ int height(struct bstree* tree)
     return 0;
 }
 
+int comparisons(struct bstree* tree)
+{
+  if(tree)
+  {
+    return (tree->comparisons + comparisons(tree->left) + comparisons(tree->right));
+  }
+  else return 0;
+}
+
+
 struct bstree* insert(Value_Type value, struct bstree* tree)
 {
   if(tree){
     // If tree is not NULL then insert into the correct sub-tree
     if (compare(value, tree->value) < 0)
-       tree->left = insert(value, tree->left);
+    {
+      tree->left = insert(value, tree->left);
+      tree->comparisons++;
+    }
     else if(compare(value, tree->value) > 0)
-       tree->right = insert(value, tree->right);
+    {
+      tree->right = insert(value, tree->right);
+      tree->comparisons++;
+    }
   }
   else{
     // Otherwise create a new node containing the value
     tree = malloc(sizeof(struct bstree));
     tree->value = strdup(value);
-    tree->height = 1;
     tree->left = NULL;
     tree->right = NULL;
+    tree->comparisons = 0;
   }
   return tree;
 }
@@ -76,9 +92,15 @@ bool find(Value_Type value, struct bstree* tree)
   if(tree){
     // Complete the find function - same as in darray
     if (compare(value, tree->value) < 0)
+    {
+      tree->comparisons++;
       return find(value, tree->left);
+    }
     else if(compare(value, tree->value) > 0)
+    {
+      tree->comparisons++;
       return find(value, tree->right);
+    }
     else
       return true;
   }
@@ -108,5 +130,5 @@ void print_stats (struct bstree* tree)
 {
   printf("Height of the tree is: %d\n", height(tree));
   printf("Size of the tree is: %d\n", size(tree));
-
+  printf("Number of comparisons: %d\n", comparisons(tree));
 }

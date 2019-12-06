@@ -37,9 +37,13 @@ struct hashset* initialize_set (int size)
   set->cells = malloc(size * sizeof(cell));
   set->size = size;
   set->num_entries = 0;
+  set->totCol = 0;
+  set->collisionsPerInsertion = 0;
+
   int i;
   for(i=0; i < size; i++)
     set->cells[i].state = 0;
+
   return set;
 }
 
@@ -49,6 +53,8 @@ struct hashset* resize(struct hashset* set)
   newSet->cells = malloc(set->size * 2 * sizeof(cell));
   newSet->size = set->size * 2;
   newSet->num_entries = set->num_entries;
+  newSet->totCol = set->totCol;
+  newSet->collisionsPerInsertion = set->collisionsPerInsertion;
 
   int i;
   for(i=0; i < set->size; i++)
@@ -57,26 +63,47 @@ struct hashset* resize(struct hashset* set)
     newSet->cells[i].state = set->cells[i].state;
   }
   tidy(set);
+
   return newSet;
 }
 
 int generateHash(Value_Type value)
 {
   int hash = 0;
-  int i;
-  for(i=0; i < strlen(value); i++)
+  int i,j;
+
+  if(mode == 1)
   {
-    if(i == 0)
-      hash += 2*value[i];
-    else
-      hash += value[i];
+    for(j=0; j < strlen(value); j++)
+    {
+      if(j % 2 == 0)
+        hash += 2*value[j];
+      else
+        hash += value[j];
+    }
+    return (int) hash / strlen(value);
   }
-  return (int)(hash / strlen(value));
+
+  else
+  {
+    for(i=0; i < strlen(value); i++)
+    {
+      if(i == 0)
+      hash += 2 * value[i];
+      else
+      hash += value[i];
+    }
+    return (int) hash / strlen(value);
+  }
 }
 
 void tidy(struct hashset* set)
 {
-  // Tidy up
+  // Tidy up all the cells
+  int i;
+  for(i = 0; i < set->size; i++)
+    set->cells[i].state = 0;
+
   free(set->cells);
   free(set);
 }
@@ -96,13 +123,18 @@ struct hashset* insert (Value_Type value, struct hashset* set)
 {
   // Code for inserting into hash table
   int hash = generateHash(value);
+  int firstHash = hash;
+
   while(set->cells[hash].state != 0)
   {
     if(hash == set->size - 1)
       set = resize(set);
     hash++;
   }
-
+  // How many collisions before insert
+  set->totCol += hash - firstHash;
+  set->num_entries++;
+  set->collisionsPerInsertion = set->totCol / set->num_entries;
   set->cells[hash].element = strdup(value);
   set->cells[hash].state = 1;
 
@@ -113,6 +145,7 @@ bool find (Value_Type value, struct hashset* set)
 {
   // Code for looking up in hash table
   int hash = generateHash(value);
+
   while(set->cells[hash].state != 0)
   {
     if(compare(set->cells[hash].element, value) == 0)
@@ -139,6 +172,5 @@ void print_set (struct hashset* set)
 
 void print_stats (struct hashset* set)
 {
-  // TODO code for printing statistics
-
+  printf("Collisions per insertion: %f\n", set->collisionsPerInsertion);
 }
