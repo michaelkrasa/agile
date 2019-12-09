@@ -1,16 +1,18 @@
 #define _POSIX_C_SOURCE 200809L
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <math.h>
 #include "sorting.h"
 
 void sort(struct darray* arr, int select){
 
   switch(select){
     case BINARY_SEARCH_ONE   : insertion_sort(arr); break;
-    case BINARY_SEARCH_TWO   : quick_sort(arr, 0, arr->size - 1); break;
+    case BINARY_SEARCH_TWO   : quick_sort(arr, 0, arr->size-1); break;
     case BINARY_SEARCH_THREE : bubble_sort(arr); break;
-    case BINARY_SEARCH_FOUR  :
-    case BINARY_SEARCH_FIVE  :
+    case BINARY_SEARCH_FOUR  : merge_sort(arr, 0, arr->size-1); break;
+    case BINARY_SEARCH_FIVE  : bucket_sort(arr); break;
     default:
       fprintf(stderr,
               "The value %d is not supported in sorting.c\n",
@@ -20,13 +22,12 @@ void sort(struct darray* arr, int select){
   }
 }
 
-
 // You may find this helpful
 void swap(char* *a, char* *b)
 {
-        char* temp = *a;
-        *a = *b;
-        *b = temp;
+  char* temp = *a;
+  *a = *b;
+  *b = temp;
 }
 
 // Most important part of the quick sort algorithm
@@ -56,26 +57,26 @@ void insertion_sort(struct darray* arr)
   // The element to be inserted into the sorted list
   Value_Type key;
   // The index in the original list
-  int index;
+  int i;
   // The index in the sorted list
-  int sortedListIndex;
+  int j;
 
   // Start with the second element in the original list
-  for (index = 1; index < arr->size; index++)
+  for (i = 1; i < arr->size; i++)
   {
     // Use that element as key
-    key = arr->cells[index];
+    key = arr->cells[i];
 
     // Loop from the previous element until the end of the list
     // Move any element greater than the key to the right of the list
-    sortedListIndex = index-1;
-    while (sortedListIndex >= 0 && compare(arr->cells[sortedListIndex], key) > 0)
+    j = i-1;
+    while (j >= 0 && compare(arr->cells[j], key) > 0)
     {
-      arr->cells[sortedListIndex+1] = arr->cells[sortedListIndex];
-      sortedListIndex = sortedListIndex - 1;
+      arr->cells[j+1] = arr->cells[j];
+      j--;
     }
     // Insert the key after the first element that is not greater than itself
-    arr->cells[sortedListIndex + 1] = key;
+    arr->cells[j + 1] = key;
   }
 }
 
@@ -101,5 +102,97 @@ void bubble_sort(struct darray* arr)
   for(i=0; i < n; i++)
     for(j=0; j < n-i-1; j++)
       if(compare(arr->cells[j], arr->cells[j+1]) > 0)
-        swap(arr->cells[j], arr->cells[j+1]);
+        swap(&arr->cells[j], &arr->cells[j+1]);
+}
+
+void merge_sort(struct darray* arr, int low, int high)
+{
+  // High and low stand for high and low indexes of the subarrays
+  if(low < high)
+  {
+    // The middle
+    int m = low+(high-low)/2;
+
+    // Sort the first and second arrays
+    merge_sort(arr, low, m);
+    merge_sort(arr, m+1, high);
+
+    // Final merge
+    merge(arr, low, m, high);
+  }
+}
+
+void merge(struct darray* arr, int low, int m, int high)
+{
+  int i,j,k;
+  // Lenghts of the two arrays
+  int len1 = m - low + 1;
+  int len2 = high - m;
+
+  // Create subarrays
+  Value_Type L[len1];
+  Value_Type R[len2];
+
+  // Add the corresponing elements to subarrays
+  for(i=0; i<len1; i++)
+    L[i] = strdup(arr->cells[low + i]);
+  for(j=0; j<len2; j++)
+    R[j] = strdup(arr->cells[m + 1 + j]);
+
+  // Merging the arrays back into our orig array
+  i = 0; // index of first subarrays
+  j = 0; // index of second subarray
+  k = low; // index of merged subarray
+  while(i < len1 && j < len2)
+  {
+    if(compare(L[i], R[j]) <= 0)
+    {
+      arr->cells[k] = strdup(L[i]);
+      i++;
+    }
+    else
+    {
+      arr->cells[k] = strdup(R[j]);
+      j++;
+    }
+    k++;
+  }
+
+  // Copy the elements from L to arr
+  while(i < len1)
+  {
+    arr->cells[k] = strdup(L[i]);
+    i++;
+    k++;
+  }
+
+  // Copy the elements from R to arr
+  while(j < len2)
+  {
+    arr->cells[k] = strdup(R[j]);
+    j++;
+    k++;
+  }
+}
+
+void bucket_sort(struct darray* arr)
+{
+  struct darray* bucket[26];
+  int i, j;
+  for(i=0; i < 26; i++)
+    bucket[i] = initialize_set(10);
+
+  for(i=0; i < arr->size; i++)
+    insert(arr->cells[i], bucket[(int)arr->cells[i][0]%32-1]);
+
+  for(i=0; i < 26 ; i++)
+    bubble_sort(bucket[i]);
+
+  int index = 0;
+  for(i=0; i < 26 ; i++)
+    for(j=0; j < bucket[i]->size; j++)
+      swap(&arr->cells[index++], &bucket[i]->cells[j]);
+
+  for(i=0; i < 26 ; i++)
+    tidy(bucket[i]);
 }

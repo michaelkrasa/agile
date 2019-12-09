@@ -31,7 +31,9 @@ void quick_sort(struct darray* arr, int low, int high);
 // We recommend implementing this one as it is a common
 // question in coding interviews and is an interesting case
 // for computing complexities
-void merge_sort(struct darray* arr);
+void merge_sort(struct darray* arr, int low, int high);
+
+void merge(struct darray* arr, int low, int m, int high);
 
 // See https://en.wikipedia.org/wiki/Timsort
 void tim_sort(struct darray* arr);
