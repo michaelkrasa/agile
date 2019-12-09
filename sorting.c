@@ -135,9 +135,9 @@ void merge(struct darray* arr, int low, int m, int high)
 
   // Add the corresponing elements to subarrays
   for(i=0; i<len1; i++)
-    L[i] = strdup(arr->cells[low + i]);
+    L[i] = arr->cells[low + i];
   for(j=0; j<len2; j++)
-    R[j] = strdup(arr->cells[m + 1 + j]);
+    R[j] = arr->cells[m + 1 + j];
 
   // Merging the arrays back into our orig array
   i = 0; // index of first subarrays
@@ -147,12 +147,12 @@ void merge(struct darray* arr, int low, int m, int high)
   {
     if(compare(L[i], R[j]) <= 0)
     {
-      arr->cells[k] = strdup(L[i]);
+      arr->cells[k] = L[i];
       i++;
     }
     else
     {
-      arr->cells[k] = strdup(R[j]);
+      arr->cells[k] = R[j];
       j++;
     }
     k++;
@@ -161,7 +161,7 @@ void merge(struct darray* arr, int low, int m, int high)
   // Copy the elements from L to arr
   while(i < len1)
   {
-    arr->cells[k] = strdup(L[i]);
+    arr->cells[k] = L[i];
     i++;
     k++;
   }
@@ -169,7 +169,7 @@ void merge(struct darray* arr, int low, int m, int high)
   // Copy the elements from R to arr
   while(j < len2)
   {
-    arr->cells[k] = strdup(R[j]);
+    arr->cells[k] = R[j];
     j++;
     k++;
   }
