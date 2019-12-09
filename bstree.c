@@ -19,6 +19,7 @@ struct bstree* initialize_set (int size)
   return NULL;
 }
 
+// Feeing up memory of all subtrees
 void tidy(struct bstree* tree)
 {
   if(tree){
@@ -29,6 +30,7 @@ void tidy(struct bstree* tree)
   }
 }
 
+// Returns size of tree
 int size(struct bstree* tree){
   if(tree){
     return (1 + size(tree->left) + size(tree->right));
@@ -52,6 +54,7 @@ int height(struct bstree* tree)
     return 0;
 }
 
+// Used to print out the number of comparisons in sort & search
 int comparisons(struct bstree* tree)
 {
   if(tree)

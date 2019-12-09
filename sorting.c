@@ -122,6 +122,7 @@ void merge_sort(struct darray* arr, int low, int high)
   }
 }
 
+// Helper function of bucket sort
 void merge(struct darray* arr, int low, int m, int high)
 {
   int i,j,k;
@@ -145,6 +146,7 @@ void merge(struct darray* arr, int low, int m, int high)
   k = low; // index of merged subarray
   while(i < len1 && j < len2)
   {
+    // Copy whatever element is smaller to the orig array
     if(compare(L[i], R[j]) <= 0)
     {
       arr->cells[k] = L[i];
@@ -177,22 +179,28 @@ void merge(struct darray* arr, int low, int m, int high)
 
 void bucket_sort(struct darray* arr)
 {
+  // Bucket for each letter of the alphabet
   struct darray* bucket[26];
   int i, j;
   for(i=0; i < 26; i++)
     bucket[i] = initialize_set(10);
 
+  // Taking the ascii value of the first character and assigning it
+  // to a corresponing bucket
   for(i=0; i < arr->size; i++)
-    insert(arr->cells[i], bucket[(int)arr->cells[i][0]%32-1]);
+    insert(arr->cells[i], bucket[(int)arr->cells[i][0] % 32 - 1]);
 
+  // Use bubble sort to sort each bucket
   for(i=0; i < 26 ; i++)
     bubble_sort(bucket[i]);
 
+  // Swap the values of the sorted buckets into the array
   int index = 0;
   for(i=0; i < 26 ; i++)
     for(j=0; j < bucket[i]->size; j++)
       swap(&arr->cells[index++], &bucket[i]->cells[j]);
 
+  // Freeing up memory
   for(i=0; i < 26 ; i++)
     tidy(bucket[i]);
 }
