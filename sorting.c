@@ -8,7 +8,7 @@ void sort(struct darray* arr, int select){
   switch(select){
     case BINARY_SEARCH_ONE   : insertion_sort(arr); break;
     case BINARY_SEARCH_TWO   : quick_sort(arr, 0, arr->size - 1); break;
-    case BINARY_SEARCH_THREE : bubble_sort(arr);
+    case BINARY_SEARCH_THREE : bubble_sort(arr); break;
     case BINARY_SEARCH_FOUR  :
     case BINARY_SEARCH_FIVE  :
     default:
