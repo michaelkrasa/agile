@@ -16,7 +16,7 @@ int compare(Value_Type a, Value_Type b){
   return strcmp(a,b);
 }
 
-
+// Initilizing set and its values
 struct darray* initialize_set (int size)
 {
 

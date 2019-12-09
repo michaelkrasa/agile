@@ -36,6 +36,7 @@ int size(struct bstree* tree){
   return 0;
 }
 
+// Finds the tree's height recursively
 int height(struct bstree* tree)
 {
   if(tree)
@@ -60,7 +61,7 @@ int comparisons(struct bstree* tree)
   else return 0;
 }
 
-
+// Inserts value depeneding on their size
 struct bstree* insert(Value_Type value, struct bstree* tree)
 {
   if(tree){

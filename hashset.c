@@ -64,8 +64,6 @@ struct hashset* resize(struct hashset* set)
     newSet->cells[i].element = set->cells[i].element;
     newSet->cells[i].state = set->cells[i].state;
   }
-
-  printf("Size now: %d\n", newSet->size);
   tidy(set);
   return newSet;
 }
@@ -83,7 +81,7 @@ int generateHash(Value_Type value, struct hashset* set)
       hash += value[i];
 
     // returns the next prime
-    return hash / set->size;
+    return nextPrime(hash / set->size);
   }
 
   // Mode 0 - linear probing
@@ -121,16 +119,18 @@ int size(struct hashset* set){
   return noOfCells;
 }
 
+//
 struct hashset* insert(Value_Type value, struct hashset* set)
 {
   // Code for inserting into hash table
   int hash = generateHash(value, set);
-  printf("Hash: %d\n", hash);
   int firstHash = hash;
 
-  while(hash > set->size)
+  // Double the hash sets size if our hash is larger than the hashset itself
+  while(hash >= set->size)
     set = resize(set);
 
+  // Looking for an empty cell
   while(set->cells[hash].state != 0)
     hash++;
 
@@ -138,6 +138,7 @@ struct hashset* insert(Value_Type value, struct hashset* set)
   set->totCol += hash - firstHash;
   set->num_entries++;
   set->collisionsPerInsertion = (float) set->totCol / set->num_entries;
+  // Put the element into the free cell and change its state
   set->cells[hash].element = strdup(value);
   set->cells[hash].state = 1;
 
@@ -149,13 +150,16 @@ bool find (Value_Type value, struct hashset* set)
   // Code for looking up in hash table
   int hash = generateHash(value, set);
 
+  // Looks into the position and iterates if item isnt there
   while(set->cells[hash].state != 0)
   {
+    // If elements contains value
     if(compare(set->cells[hash].element, value) == 0)
       return true;
-
+    // When while loop eaches the end
     if(hash == set->size - 1)
       return false;
+    // Iterate
     hash++;
   }
   // Default

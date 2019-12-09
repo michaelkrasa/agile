@@ -8,7 +8,7 @@ void sort(struct darray* arr, int select){
   switch(select){
     case BINARY_SEARCH_ONE   : insertion_sort(arr); break;
     case BINARY_SEARCH_TWO   : quick_sort(arr, 0, arr->size - 1); break;
-    case BINARY_SEARCH_THREE :
+    case BINARY_SEARCH_THREE : bubble_sort(arr);
     case BINARY_SEARCH_FOUR  :
     case BINARY_SEARCH_FIVE  :
     default:
@@ -66,8 +66,8 @@ void insertion_sort(struct darray* arr)
     // Use that element as key
     key = arr->cells[index];
 
-    // Start looping from the previous element until the start of the list
-    // And move any element greater than the key to the right of the list
+    // Loop from the previous element until the end of the list
+    // Move any element greater than the key to the right of the list
     sortedListIndex = index-1;
     while (sortedListIndex >= 0 && compare(arr->cells[sortedListIndex], key) > 0)
     {
@@ -91,4 +91,15 @@ void quick_sort(struct darray* arr, int low, int high)
     quick_sort(arr, low, pivot - 1);
     quick_sort(arr, pivot + 1, high);
   }
+}
+
+// Bubble sort implementation
+void bubble_sort(struct darray* arr)
+{
+  int n = arr->size;
+  int i, j;
+  for(i=0; i < n; i++)
+    for(j=0; j < n-i-1; j++)
+      if(compare(arr->cells[j], arr->cells[j+1]) > 0)
+        swap(arr->cells[j], arr->cells[j+1]);
 }
