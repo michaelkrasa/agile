@@ -96,13 +96,14 @@ void run_test3(){
   tidy(queue);
 }
 
-// Check that priority queue truly popped the first element
+// Check that priority queue can handle negative numbers
 void run_test4(){
   printf("TEST 4\n");
   PriorityQueue queue = initialize_pq(10);
   printf("Initialised...\n");
-  insert(queue,"first",0);
+  insert(queue,"first",-1);
   printf("Inserted first with priority 1...\n");
+  check_result(4, "first", pop_min(queue));
   tidy(queue);
 }
 
