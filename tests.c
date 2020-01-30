@@ -103,7 +103,7 @@ void run_test4(){
   printf("Inserted second with priority 1...\n");
   check_result(4,"first", pop_min(queue));
   printf("Popping first...\n");
-  assert(4, contains(queue, "second", 1), "second is not in queue");
+  assert(4, contains(queue, "second", 2), "second is not in queue");
   printf("First isn't in the queue anymore\n");
   tidy(queue);
 }
