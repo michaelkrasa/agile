@@ -103,7 +103,7 @@ void run_test4(){
   printf("Initialised...\n");
   insert(queue,"first",1);
   printf("Inserted first with priority 1...\n");
-  check_result(4, "first", print(queue));
+  print(queue);
   tidy(queue);
 }
 
