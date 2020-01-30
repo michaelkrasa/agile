@@ -1,0 +1,18 @@
+1.	What priority queue operations does each application require and with what relatively frequency (roughly)?
+
+There have to be n * pop operations to pop all the strings. The sorting part is done by the priority queue by default, even though they're not sorted by the string itself. Other operations don't have to be done at all.
+
+For string search the priority queue has to do lots of popping to get the substrings out. It will check when its empty, and insert the strings with their key depending on their length. We cannot utilize contains() in this application. There will essentially be lots of popping and inserting.
+
+
+2.	With what complexity does each of the five considered alternative data structures implement those operations?
+Linked list - O(n), O(n^2)
+Sorted linked list - O(n), O(n)
+AVL tree - O(log n), O()
+Binary heap - O(), O()
+Skip list - O(), O()
+
+
+3.	For each application, which data structure do you expect to be best?
+
+

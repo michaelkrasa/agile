@@ -61,7 +61,7 @@ void checkHeightBalanceProperty(struct avltree* tree)
 }
 
 
-struct avltree* initialize_pq (int size) 
+struct avltree* initialize_pq (int size)
 {
   // An empty tree is represented by node with NULL
   // value. Cannot insert NULL into tree. Assumes
@@ -92,18 +92,19 @@ void tidy(struct avltree* tree)
   }
 }
 
-bool is_empty(struct avltree* tree){
-  if(sentinel(tree)){
-    return tree->left==NULL;
-  }
+bool is_empty(struct avltree* tree)
+{
+  if(sentinel(tree)) { return tree->left==NULL;}
   return tree==NULL;
 }
 
 // Helper functions for insertion
-int height(struct avltree* tree){
+int height(struct avltree* tree)
+{
   if(tree){ return tree->depth;}
   return 0;
 }
+
 struct avltree* rightRotate(struct avltree* node)
 {
   struct avltree* l = node->left;
@@ -118,8 +119,14 @@ struct avltree* rightRotate(struct avltree* node)
 
 struct avltree* leftRotate(struct avltree* node)
 {
-  // TODO implement a left rotation
-  return 0;
+  struct avltree* r = node->right;
+  node->right = r->left;
+  r->left = node;
+
+  node->depth = max(height(node->left), height(node->right)) + 1;
+  r->depth = max(height(r->right), node->depth) + 1;
+
+  return r;
 }
 
 int getBalance(struct avltree* node)
@@ -133,7 +140,7 @@ struct avltree* rebalance(struct avltree* tree){
 
     int parentBalance = getBalance(tree);
 
-    if (parentBalance == -2){ // left child updated 
+    if (parentBalance == -2){ // left child updated
       if(getBalance(tree->left) <= 0){
         //printf("Case Right\n");
         return rightRotate(tree);
@@ -144,9 +151,14 @@ struct avltree* rebalance(struct avltree* tree){
         return rightRotate(tree);
       }
     }
-    if (parentBalance == 2){ // right child updated 
-      // TODO implement the case where the right child has been updated
-      //      using your new leftRotate function
+    if (parentBalance == 2){ // right child updated
+      if(getBalance(tree->right) >= 0){
+        return leftRotate(tree);
+      }
+      else{
+        tree->right =  rightRotate(tree->right);
+        return leftRotate(tree);
+      }
     }
 
     //printf("No change\n");
@@ -158,7 +170,7 @@ struct avltree* insert_inner (struct avltree* tree, Value_Type value, int priori
   if(tree){
     if(tree->priority > priority){ tree->left = insert_inner(tree->left,value,priority); }
     else { tree->right = insert_inner(tree->right,value,priority); }
-    // This implementation allows duplicates 
+    // This implementation allows duplicates
 
     tree->depth = max(height(tree->left), height(tree->right)) + 1;
 
@@ -166,7 +178,7 @@ struct avltree* insert_inner (struct avltree* tree, Value_Type value, int priori
   }
   else{
     //otherwise create a new node containing the value
-    tree = initialize_pq(0); 
+    tree = initialize_pq(0);
     tree->value= value;
     tree->priority=priority;
   }
@@ -199,7 +211,7 @@ bool contains (struct avltree* tree, Value_Type value, int priority)
       if(compare(value,tree->value)==0){ return true; }
       // if we have the right priority but wrong value then one of the children might have the same
       // priority and, if so, we should search there. We cannot make assumptions about which child.
-      return (tree->left && tree->left->priority==priority && contains(tree->left,value,priority)) || 
+      return (tree->left && tree->left->priority==priority && contains(tree->left,value,priority)) ||
              (tree->right && tree-> right->priority==priority && contains(tree-> right,value,priority));
     }
     // tree sorted by priority
@@ -234,7 +246,7 @@ Value_Type pop_min_inner(struct avltree* tree, struct avltree* parent){
         parent->left=NULL;
       }
       free(tree);
-    }  
+    }
 
     return res;
   }
@@ -266,7 +278,7 @@ void print_recursive(struct avltree* tree, int depth)
     print_recursive(tree->right,depth+1);
   }
   else printf("(NULL,-,0)\n");
-} 
+}
 // You can update this if you want
 void print(struct avltree* tree)
 {
@@ -276,5 +288,3 @@ void print(struct avltree* tree)
  }
  else print_recursive(tree,0);
 }
-
-
