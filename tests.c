@@ -87,7 +87,8 @@ void run_test3(){
   printf("TEST 3\n");
   PriorityQueue queue = initialize_pq(10);
   printf("Initialised...\n");
-  assert(3,is_empty(queue)," queue is empty");
+  assert(3,is_empty(queue),"queue is not empty");
+  printf("Queue is indeed empty\n");
   tidy(queue);
 }
 
@@ -102,7 +103,7 @@ void run_test4(){
   printf("Inserted second with priority 1...\n");
   check_result(4,"first", pop_min(queue));
   printf("Popping first...\n");
-  assert(4, contains(queue, "first", 1), "first is not in queue");
+  assert(4, contains(queue, "second", 1), "second is not in queue");
   printf("First isn't in the queue anymore\n");
   tidy(queue);
 }
