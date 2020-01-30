@@ -152,7 +152,7 @@ struct avltree* rebalance(struct avltree* tree){
       }
     }
     if (parentBalance == 2){ // right child updated
-      if(getBalance(tree->right) <= 0){
+      if(getBalance(tree->right) >= 0){
         return leftRotate(tree);
       }
       else{
