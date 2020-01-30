@@ -101,9 +101,8 @@ void run_test4(){
   printf("TEST 4\n");
   PriorityQueue queue = initialize_pq(10);
   printf("Initialised...\n");
-  insert(queue,"first",1);
+  insert(queue,"first",0);
   printf("Inserted first with priority 1...\n");
-  print(queue);
   tidy(queue);
 }
 
