@@ -136,7 +136,7 @@ Value_Type pop_min(struct skiplist* slist){
  // TODO what do we need to do to repair the Skip List
  // to remove the min node? (Hint: what is pointing to min
  // and where should that point?)
- slist->header->next[0] = min_>next[0];
+ slist->header->next[0] = min->next[0];
  
  free(min->next);
  free(min);
