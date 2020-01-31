@@ -34,7 +34,7 @@ Empty: O(1)
 Tidy: O(n)
 Pop_min: O(log n)
  
-Skip list
+Skip list:
 Insertion: O(n)
 Contains: O(n)
 Empty: O(1)
