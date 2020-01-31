@@ -85,7 +85,7 @@ struct node* search(struct skiplist* slist, int priority, struct node** updates)
   while(level > 0){
     level--;
 
-    while(node->next[level]->priority <= priority)
+    while(node->next[level] && node->next[level]->priority <= priority)
       node = node->next[level];
 
     // Record the node where we go down at a particular level
@@ -135,7 +135,14 @@ Value_Type pop_min(struct skiplist* slist){
  // TODO what do we need to do to repair the Skip List
  // to remove the min node? (Hint: what is pointing to min
  // and where should that point?)
- slist->header->next[0] = min->next[0];
+
+ int i;
+ for(i = 0; i < min->height; i++)
+ {
+   //if(slist->header->next[i] != min)
+     //break;
+   slist->header->next[i] = slist->header->next[i]->next[i];
+ }
 
  free(min->next);
  free(min);
