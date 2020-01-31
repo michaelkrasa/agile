@@ -104,6 +104,7 @@ void run_test4(){
   insert(queue,"first",-1);
   printf("Inserted first with priority 1...\n");
   check_result(4, "first", pop_min(queue));
+  printf("Popped first with negative priority...\n");
   tidy(queue);
 }
 
