@@ -100,7 +100,7 @@ void insert(struct skiplist* slist, Value_Type value, int priority){
   struct node* insert_at = search(slist,priority,updates);
 
   int levels = 1;
-  while((rand() % 2) == 0 && levels < 20)
+  while((rand() % 2) == 0 && levels < MAX_LEVEL)
     levels++;
 
   struct node* new_node = make_node(value, priority, levels);
