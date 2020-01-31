@@ -103,7 +103,7 @@ void insert(struct skiplist* slist, Value_Type value, int priority){
   while(true)
   {
 	// 50% chance with every new level
-    if(rand() % 2 == 1)
+    if((rand() % 2) == 1)
       break;
 	levels++;
   }
