@@ -135,8 +135,8 @@ Value_Type pop_min(struct skiplist* slist){
  int i;
  for(i = 0; i < min->height; i++)
  {
-   //if(slist->header->next[i] != min)
-     //break;
+   if(slist->header->next[i] != min)
+     break;
    slist->header->next[i] = slist->header->next[i]->next[i];
  }
 
