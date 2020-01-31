@@ -85,7 +85,7 @@ struct node* search(struct skiplist* slist, int priority, struct node** updates)
   while(level > 0){
     level--;
 
-    while(node->next[level]->priority <= priority)
+    while(node->next[level]->priority < priority)
       node = node->next[level];
 
     // Record the node where we go down at a particular level
