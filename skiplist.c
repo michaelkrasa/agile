@@ -86,7 +86,7 @@ struct node* search(struct skiplist* slist, int priority, struct node** updates)
     level--;
 
     while(priority >= node->next[level]->priority)
-      node = node->next;
+      node = node->next[level];
 
     // Record the node where we go down at a particular level
     if(updates){updates[level]=node;}
@@ -99,18 +99,19 @@ void insert(struct skiplist* slist, Value_Type value, int priority){
   struct node* updates[MAX_LEVEL];
   struct node* insert_at = search(slist,priority,updates);
 
-  int levels = 0;
+  int levels = 1;
   while(true)
   {
-    if(rand() % 1 >= 0.5)
-      levels++;
-    else
+	// 50% chance with every new level
+    if(rand() % 2 == 1)
       break;
+	levels++;
   }
 
   struct node* new_node = make_node(value, priority, levels);
 
-  for(int i=0;i<levels;i++){
+  int i;
+  for(i=0;i<levels;i++){
     new_node->next[i] = updates[i]->next[i];
     updates[i]->next[i] = new_node;
   }
@@ -135,7 +136,7 @@ Value_Type pop_min(struct skiplist* slist){
  // TODO what do we need to do to repair the Skip List
  // to remove the min node? (Hint: what is pointing to min
  // and where should that point?)
- min = min->next;
+ slist->header->next[0] = min_>next[0];
  
  free(min->next);
  free(min);
