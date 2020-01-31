@@ -1,18 +1,63 @@
 1.	What priority queue operations does each application require and with what relatively frequency (roughly)?
 
-There have to be n * pop operations to pop all the strings. The sorting part is done by the priority queue by default, even though they're not sorted by the string itself. Other operations don't have to be done at all.
+There have to be n * pop operations to pop all the strings. The sorting part is done by the priority queue by default, even though they're not sorted by the string itself. We have to do a bit tidying as well.
 
-For string search the priority queue has to do lots of popping to get the substrings out. It will check when its empty, and insert the strings with their key depending on their length. We cannot utilize contains() in this application. There will essentially be lots of popping and inserting.
-
+For string search the priority queue has to do bit inserting (n) and pop_min operations (n). It will check when its empty, and insert the strings with their key depending on their length. We cannot utilize contains() in this application. There will essentially be lots of popping and inserting.
 
 2.	With what complexity does each of the five considered alternative data structures implement those operations?
-Linked list - O(n), O(n^2)
-Sorted linked list - O(n), O(n)
-AVL tree - O(log n), O()
-Binary heap - O(), O()
-Skip list - O(), O()
 
+Linked list:
+Insertion: O(1)
+Contains: O(n)
+Empty: O(n)
+Tidy: O(n)
+Pop_min: O(n)
+
+Sorted linked list:
+Insertion: O(n)
+Contains: O(n)
+Empty: O(1)
+Tidy: O(n)
+Pop_min: O(1)
+
+AVL tree:
+Insertion: O(log n)
+Contains: O(log n)
+Empty: O(1)
+Tidy: O(log n)
+Pop_min: O(log n)  
+
+Binary heap:
+Insertion: O(log n)
+Contains: O(n)
+Empty: O(1)
+Tidy: O(n)
+Pop_min: O(log n)
+ 
+Skip list
+Insertion: O(n)
+Contains: O(n)
+Empty: O(1)
+Tidy: O(n)
+Pop_min: O(n)
 
 3.	For each application, which data structure do you expect to be best?
 
+Just by their complexities I assume that AVL tree is going to perform well but theres a lot of operations
+in between such as right and left rotations which might slow it down a bit. Binary heap could be the best for sorting and skiplist should do well with string search.
 
+
+=======================================================================================
+
+Sorting
+
+Binary heap - 0.228s
+AVL tree - 0.319s
+Skiplist - 0.262s
+
+
+String search
+
+Binary heap - 0.514s
+AVL tree - 0.265s
+Skiplist - 0.212s
