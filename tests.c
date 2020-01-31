@@ -52,7 +52,7 @@ void run_test1(){
   insert(queue,"foo", 1337);
   printf("Inserted foo with priority 1337...\n");
   insert(queue,"bar", 400);
-  printf("Inserted goodbye with priority 400...\n");
+  printf("Inserted bar with priority 400...\n");
   assert(1, contains(queue, "foo", 1337), "foo is not in queue");
   printf("Contains foo...\n");
   assert(1, contains(queue, "bar", 400), "bar is not in queue");
@@ -70,10 +70,14 @@ void run_test2(){
   printf("TEST 2\n");
   PriorityQueue queue = initialize_pq(10);
   printf("Initialised...\n");
-  insert(queue,"first", 1);
-  printf("Inserted first with priority 1...\n");
-  insert(queue,"second", 1);
-  printf("Inserted second with priority 1...\n");
+  insert(queue,"first", 3);
+  printf("Inserted first with priority 3...\n");
+  insert(queue,"second", 2);
+  printf("Inserted third with priority 2...\n");
+  insert(queue,"third", 1);
+  printf("Inserted third with priority 1...\n");
+  check_result(2, "third", pop_min(queue));
+  printf("Popping third...\n");
   check_result(2, "second", pop_min(queue));
   printf("Popping second...\n");
   check_result(2, "first", pop_min(queue));

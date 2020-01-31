@@ -54,18 +54,15 @@ void swap(struct binaryHeap *pq, int i, int j) {
 }
 
 
-void sift_up(struct binaryHeap *pq, int i) {
-
-  while(true)
+void sift_up(struct binaryHeap *pq, int i)
+{
+  if(i==0)
+    return;
+  int p = parent(i);
+  if(pq->weights[p] > pq->weights[i])
   {
-    if(i==0)
-      return;
-    int p = parent(i);
-    if(pq->weights[p] < pq->weights[i])
-      swap(pq, i, p);
-    else
-      return;
-    i = p;
+    swap(pq, i, p);
+    sift_up(pq, p);
   }
 }
 
