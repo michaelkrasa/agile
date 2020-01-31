@@ -100,12 +100,8 @@ void insert(struct skiplist* slist, Value_Type value, int priority){
   struct node* insert_at = search(slist,priority,updates);
 
   int levels = 1;
-  while(true)
-  {
-  	if((rand() % 2) == 1)
-      break;
-  	levels++;
-  }
+  while((rand() % 2) == 0 && levels < 20)
+    levels++;
 
   struct node* new_node = make_node(value, priority, levels);
 
@@ -139,8 +135,8 @@ Value_Type pop_min(struct skiplist* slist){
  int i;
  for(i = 0; i < min->height; i++)
  {
-   //if(slist->header->next[i] != min)
-     //break;
+   if(slist->header->next[i] != min)
+     break;
    slist->header->next[i] = slist->header->next[i]->next[i];
  }
 
