@@ -9,20 +9,25 @@
 #
 # You should run this script at the start of an exercise and if told to do so. 
 #
+# UPDATE: this script can now be used to refresh a single file e.g.
+# ./refresh.sh refresh.sh
+# will update this script
+#
 # Author: Giles Reger
 
 # find tag name
 BRANCH=$(git branch | grep "\*" | cut -d ' ' -f 2)
 
-# The remote upstream should be added in your repository 
-if ! git config remote.upstream.url > /dev/null; then
-  git remote add upstream https://gitlab.cs.man.ac.uk/mbaxjgr2/comp26120_base.git
-fi
+# In case upstream was previously added wrongly, just delete and re-add 
+git remote remove upstream
+git remote add upstream https://gitlab.cs.man.ac.uk/mbaxjgr2/comp26120_base.git
 
 # Get any upstream changes
 git fetch upstream
 
-# Rebase on top of them (apply them before any local changes)
-git merge upstream/"${BRANCH}"
-
-git push origin "${BRANCH}"
+# If no file given just merge full branch 
+if [ -z $1 ]; then
+  git merge upstream/"${BRANCH}"
+else
+  git checkout upstream/"${BRANCH}" $1
+fi
