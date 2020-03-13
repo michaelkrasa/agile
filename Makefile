@@ -9,7 +9,7 @@
 CC = gcc
 
 # define any compile-time flags
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -std=c99 -D_XOPEN_SOURCE -D_XOPEN_SOURCE_EXTENDED
 
 # define any directories containing header files other than /usr/include
 #

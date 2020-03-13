@@ -17,8 +17,6 @@ typedef signed long raw_weight_t;
 #define WEIGHT_MIN (LONG_MIN+1)
 #define WEIGHT_MAX (LONG_MAX-1)
 
-
-
 typedef struct _weight_t {raw_weight_t __w;} weight_t;
 
 /// These conversion functions only work for *finite* weights
@@ -72,5 +70,3 @@ bool weight_eq(weight_t a, weight_t b);
 void print_weight(FILE *f, weight_t a);
 
 #endif
-
-

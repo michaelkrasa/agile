@@ -199,7 +199,7 @@ void testDPQ() {
     last = w;
     if (!weight_is_inf(last)) total2 = weight_add(total2,last);
   }
-
+  //printf("%d, %d\n",total, total2);
   assert(weight_eq(total2, total));
 
   DPQ_delete(pq);
@@ -665,14 +665,3 @@ int main(int argc, char **argv) {
 
   return 0;
 }
-
-
-
-
-
-
-
-
-
-
-

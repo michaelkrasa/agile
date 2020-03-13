@@ -109,4 +109,3 @@ void print_weight(FILE *f, weight_t a) {
   else if (weight_is_neg_inf(a)) fprintf(f,"-inf");
   else fprintf(f,"%ld",weight_to_int(a));
 }
-

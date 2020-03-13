@@ -20,7 +20,6 @@ void error(const char *format, ...)
     exit(1);
 }
 
-
 void __asserterror(const char *file, int line, const char *func, const char *format, ...)
 {
     va_list args;
@@ -33,8 +32,6 @@ void __asserterror(const char *file, int line, const char *func, const char *for
     va_end(args);
     exit(1);
 }
-
-
 
 int log_verb = 0;
 
@@ -74,4 +71,3 @@ size_t scan_size(FILE *file) {
     size_t res;
     if (fscanf(file, "%zu", &res) == 1) return res; else error("Error reading input");
 }
-

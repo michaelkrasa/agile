@@ -10,7 +10,6 @@
 #include "hashmap.h"
 #include "general.h"
 #include "graph.h"
-
 #include "airports.h"
 
 
@@ -86,7 +85,7 @@ void ap_read_routes(FILE *f) {
   assert(route_g == NULL);
   route_g = graph_new(ap_get_num_ids());
 
-  for (int i=0;i<num_edges;++i) {
+  for (int i=0;i<num_edges;i++) {
     apid_t id1 = ap_check_id(scan_size(f));
     apid_t id2 = ap_check_id(scan_size(f));
 
@@ -182,5 +181,3 @@ apid_t ap_get_id(char const *code) {
 double ap_get_dist_dbl(apid_t id1, apid_t id2) {
   return dist(ap_get_lat(id1), ap_get_lng(id1), ap_get_lat(id2), ap_get_lng(id2));
 }
-
-
