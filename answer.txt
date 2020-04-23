@@ -1,0 +1,74 @@
+Dynamic programming
+
+1. Simple subproblems
+The 0/1 Knapsack Problem has 2^n number of subproblems where there there are two cases for each item - it is 
+or isn't placed in the knapsack. For every given combination we can calculate the overall value and weight,
+only after that can we determine if such combination is feasible and check it against the current best and
+determine whether it's better or not. In enumeration we had to do this for every single combination individually
+but there's a better approach using dynamic programming.
+
+2. Subproblem optimality
+The knapsack problem is a combinatorial optimization problem where each each item has a value and weight and
+to find an optimal solution means fitting items with the highest total value but with less than or equal weight 
+of the knapsack's capacity. We can't just fit items with the highest values to come to the best solution,
+we have to select a more refined approach to guarantee an optimal solution - such as dynamic programming.
+
+3. Subproblem overlap
+This problem certainly has this propertly since often times when we're testing a new combination of items,
+we're really just changing one item of the solution. All the items that are unchanged don't have to calculated
+again since their combined value can be stored and doesn't change. It is clear that the subproblems of knapsack 
+aren't entirely unique and are overlapping which is exactly the property which dynamic programming takes use of.
+
+Part 3b
+
+1. As previously stated in question 1 of part 1, the knapsack problem has 2^n possible combinations meaning that
+with every additional item in the knapsack the number of combination doubles. This means enumeration has exponential
+time complexity which means that essentially anything over 20 isn't worth doing using this method. I think around
+25 items is about the limit that enumeration can handle.
+
+2. Greedy algorithm never found the optimal solution but always came very close to it. Dynamic programming performed
+the best with 20 items and 200 items having a near same time as branch and bound. Dynamic programming did very well
+with 200 items where it triumphed all other approaches. Other approaches struggled to find the result when more items
+were involved, that's where dynamic programming came on top - tests with 200 and 2000 items. 
+Branch and bound only managed to find any value in shorter tests of 20 and the easy 200 item test. Branch and bound 
+simply isn't capable of computing a problem set this large since it works iteratively and stores all items in a
+priority queue which has to downheap with every insertion which is time consuming.
+
+3. For both easy text files it is clear that the spread of the weights and values of the items isn't as significant
+as for the hard ones which is a crucial difference when two tests have the same number of items. The hard tests go
+to completely different sizes of values and weights. Another notable difference between easy and hard tests is that
+easy the easy ones have a capacity that's roughly 15*n whereas the hard tests have a capacity of around 500*n which
+is substantial.
+
+For greedy algorithm none of this is really a problem as its never aiming for the exact best possible solution
+even though it comes very close - in the last test of 2000 items dynamic programming found the correct answer in
+30 seconds while the greedy algorithm came up with a result that is 99.992% of the solution and had it in 0.01 second.
+Everything is easy for this approach because it doesn't require too much logical processing, it just sorts the items
+by their ratio and places them in the solution until it hits the capacity. The whole thing can be done using one
+for / while loop.
+
+The same cannot be said for branch and bound. While also being very efficient at lower number of items, matching
+dynamic programming's time in both easy cases, it didn't even produce a solution for the hard tests. This is
+definitely given by the fact that it uses a priority queue which has to do several operations with every insertion
+while also keeping the maximum item at the top. These operations aren't difficult and knowing that branch and bound 
+can discard the infeasible solutions but as the queue grows it becomes unmanagable, having a 2^n (exponential)
+possible combinations simply overshadows the benefits of the approach. 
+
+Dynamic programming is the only approach which managed to produce an optimal value in all cases, taking significantly
+less time for the difficult tests than bnb or enum if they even finished. The hard instances go well for dynamic
+programming because of its ability to significantly reduce time complexity compared to other approaches. Since
+past combinations aren't being recalculated but stored in a two dimensional array, it manages to simply
+recall, read, add and save the new value to another position in the array. These basic operations allow it to
+have a linear time complexity of O(nW) n being the number of items and W the capacity of the knapsack.
+
+4. The airlines should definitely use a dynamic programming algorithm because it has proven to produce the optimal
+solution in the shortest amount of time including problems with a higher spread of values, weights and various 
+capacities. It can also handle problems of larger proportions which is definitely necessary for an airline
+application. If the dynamic programming algorithm does run out of time a failsafe should be used - the obvious
+choice here is the greedy algorithm which as previously discussed is able to produce nearly the optimal solution
+but in fraction of the time in comparison with any other algorithm.
+
+
+
+
+

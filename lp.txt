@@ -1,0 +1,39 @@
+1. The simplex algorithm may be used in the fractional knapsack problem where unlike
+the 0/1 knapsack problem we can include a whole item or its fraction which opens
+up our options of solutions. Converting this problem to linear programming is quite
+straighforward since we only have one constraint and that is the capacity.
+Lets say we have 3 items and a capacity of 15, we can write the problem as
+x1 + x2 + x3 <= 15. Depending on each item's value/weight ratio (v/W) the algorithm
+should select value maximizing coefficient's for x1, x2, x3 while satisfying the
+constraint. First we have to order the items in decreasing order of the ratio v/W.
+We can assume the first item fits in the knapsack and so we set x1 = v1/W1 and
+xi = 0 and i > 1. Lets say the first two items will fit in the knapsack but the
+third one won't. All there is to be done is calculate the coefficient of the third
+item so that the contraint is satisfied and that would be the optimal result.
+Since the items are sorted by their ratios, we know we need to fit items with a
+lower index first and when the next item doesn't fit the simmplex algorithm simply
+calculates the fraction and the item is inserted.
+
+2. Yes this approach will always provide the ideal solution because we're just
+stuffing the knapsack with the most valuable items based on their ratio first
+and the next item that doesn't fit is only put in partially. This achieves maximum
+efficiency which would previously be impossible in the 0/1 knapsack.
+Its efficiency would be something along the lines of the greedy algorithm which
+essentially does the same thing except for that one item, therefore it would be
+O(nW). We musn't forget that the items have to be sorted first.
+
+3. Linear programming tries to find a miximum or minimum solution of the given set of 
+linear equations with some constraints.
+
+Integer programming is a subset of linear programming, it has the same characteristics
+of linear programming with one simple difference - integer programming's solution 
+must be an integer. 
+Integer programming is NP-hard while Linear programming is in P. This has its limits
+as as computers can only have a finite precision so in practise computers are using
+integers for linear programming.
+
+4. Relaxation in integer programming is when the integer part of the constraint 
+(definition of integer programming) is removed on a variable etc. all variables
+are integers, except for one which has been relaxed. What this creates is a linear
+problem which is why it will help the Simplex algorithm solve the Knapsack problem.
+It transforms the problem from NP-hard to polynomial time.

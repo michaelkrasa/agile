@@ -1,4 +1,3 @@
-
 // Dynamic programming for 0/1 knapsack
 // (C) Joshua Knowles
 // The variable names here follow standard usage in formulating
@@ -9,40 +8,35 @@
 #include <math.h>
 #include <stdbool.h>
 
-FILE *fp;  // file pointer for reading the input files
-int Capacity;     // capacity of the knapsack (total weight that can be stored)
-int Nitems;    // number of items available
-int *item_weights;  // vector of item weights
-int *item_values;  // vector of item profits or values
-int *temp_indexes;  // list of temporary item indexes for sorting items by value/weight
-int QUIET=0; // this can be set to 1 to suppress output
-
+FILE * fp; // file pointer for reading the input files
+int Capacity; // capacity of the knapsack (total weight that can be stored)
+int Nitems; // number of items available
+int * item_weights; // vector of item weights
+int * item_values; // vector of item profits or values
+int * temp_indexes; // list of temporary item indexes for sorting items by value/weight
+int QUIET = 0; // this can be set to 1 to suppress output
 
 // function prototypes
-extern void read_knapsack_instance(char *filename);
-int DP(int *v,int *wv, int n, int W, int *solution);
-extern int check_evaluate_and_print_sol(int *sol,  int *total_value, int *total_weight);
+extern void read_knapsack_instance(char * filename);
+int DP(int * v, int * wv, int n, int W, int * solution);
+extern int check_evaluate_and_print_sol(int * sol, int * total_value, int * total_weight);
 
-int main(int argc, char *argv[1])
-{
-  int *solution;    // binary vector indicating items to pack
-  int total_value, total_weight;  // total value and total weight of items packed
-  
+int main(int argc, char * argv[1]) {
+  int * solution; // binary vector indicating items to pack
+  int total_value, total_weight; // total value and total weight of items packed
+
   read_knapsack_instance(argv[1]);
 
-  if((solution = (int *)malloc((Nitems+1)*sizeof(int)))==NULL)
-    {      
-      fprintf(stderr,"Problem allocating table for DP\n");
-      exit(1);
-    }
-
-  DP(item_values,item_weights,Nitems,Capacity,solution);
-  check_evaluate_and_print_sol(solution,&total_weight,&total_value);
-  return(0);
+  if ((solution = (int * ) malloc((Nitems + 1) * sizeof(int))) == NULL) {
+    fprintf(stderr, "Problem allocating table for DP\n");
+    exit(1);
+  }
+  DP(item_values, item_weights, Nitems, Capacity, solution);
+  check_evaluate_and_print_sol(solution, & total_weight, & total_value);
+  return (0);
 }
-  
-int DP(int *v,int *wv, int n, int W, int *solution)
-{
+
+int DP(int * v, int * wv, int n, int W, int * solution) {
   // the dynamic programming function for the knapsack problem
   // the code was adapted from p17 of http://www.es.ele.tue.nl/education/5MC10/solutions/knapsack.pdf
 
@@ -52,27 +46,52 @@ int DP(int *v,int *wv, int n, int W, int *solution)
   // W is the constraint (the weight capacity of the knapsack)
   // solution: a 1 in position n means pack item number n+1. A zero means do not pack it.
 
-  int **V, **keep;  // 2d arrays for use in the dynamic programming solution
+  int ** V, ** keep; // 2d arrays for use in the dynamic programming solution
   // keep[][] and V[][] are both of size (n+1)*(W+1)
 
   int i, w, K;
 
   // Dynamically allocate memory for variables V and keep
-  /* ADD CODE HERE */
- 
- //  set the values of the zeroth row of the partial solutions table to zero
-  /* ADD CODE HERE */
+  V = malloc(sizeof(int * ) * (n+1));
+  keep = malloc(sizeof(int * ) * (n+1));
+  for (i = 0; i < n+1; i++) {
+    V[i] = malloc(sizeof(int) * (W+1));
+    keep[i] = malloc(sizeof(int) * (W+1));
+  }
 
+  //  set the values of the zeroth row of the partial solutions table to zero
+  for (w = 0; w < W; w++) {
+    V[0][w] = 0;
+  }
 
- // main dynamic programming loops , adding one item at a time and looping through weights from 0 to W
-  /* ADD CODE HERE */
-
+  // main dynamic programming loops , adding one item at a time and looping through weights from 0 to W
+  for (i = 1; i < n+1; i++) {
+    for (w = 0; w < W+1; w++) {
+      if (wv[i] <= w && v[i] + V[i-1][w - wv[i]] > V[i-1][w]) {
+        V[i][w] = v[i] + V[i-1][w - wv[i]];
+        keep[i][w] = 1;
+      } else {
+        V[i][w] = V[i-1][w];
+        keep[i][w] = 0;
+      }
+    }
+  }
 
   // now discover which items were in the optimal solution
-  /* ADD CODE HERE */
+  K = W;
+  for (i = n; i >= 1; i--) {
+    solution[i] = keep[i][K];
 
+    if (keep[i][K] == 1) {
+      K = K - wv[i];
+    }
+  }
+
+  // Printing our the solution
+  printf("Solution:\n");
+  for (i = 1; i < n + 1; i++)
+    printf("%d ", solution[i]);
+  printf("\n");
 
   return V[n][W];
 }
-
-

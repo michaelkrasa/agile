@@ -1,0 +1,19 @@
+1. Simple Subproblems
+
+Dynamic programming approach for the Knapsack problem works on the basis of divide
+and conquer because solutions. In this problem the solution can be obtained by solving
+subproblems (finding item combinations with small weight and high value). These subproblems
+are then needed again when computing the optimal solution of different combinations of items in the Knapsack.
+
+2. Subproblem optimality
+
+The knapsack problem is of course an optimalisation problem, we have a set maximum weight and we want to
+maximise the value of the items in the knapsack. The optimal solution of the problem can be obtained
+by using optimal solutions of its subproblems so to say. Therefore this requirement is satisfied.
+
+3. Subproblem Overlap
+
+As stated above, there are overlapping subproblems in the Knapsack problem since many of the combinations 
+are repeated. We can save the total weight and value of a set of given items so that it won't have to be computed
+with every combination. Knowing this, we can then recall the saved overlapping subproblems to compute the solution.
+
