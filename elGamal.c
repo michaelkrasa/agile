@@ -71,7 +71,7 @@ int main() {
                 if (k == 0) k++;
                 a = fme(g, k, p);
                 b = msg * fme(pubKey, k, p) % p;
-                printf("\nEncrypted secret is (%d, %d)\n", a, b);
+                printf("\nEncrypted secret is (%lu, %lu)\n", a, b);
                 break;
 
       case 'd': printf("Type in received message in form (a,b):\n");
@@ -82,10 +82,10 @@ int main() {
                 secret = fme(a, privKey, p);
                 inv = imp(secret, p);
                 msg = b * inv % p;
-                printf("\n%d\n", msg); break;
+                printf("\n%lu\n", msg); break;
 
       case 'k': printf("Type private key: "); scanf("%lu", &privKey);
-                printf("Public key is: %d\n", fme(g, privKey, p)); break;
+                printf("Public key is: %lu\n", fme(g, privKey, p)); break;
 
       case 'x': printf("Goodbye\n"); return 0; break;
       default: break;
