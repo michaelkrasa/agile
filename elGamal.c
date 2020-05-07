@@ -84,8 +84,9 @@ int main() {
                 msg = b * inv % p;
                 printf("The decrypted secret is: %lu\n", msg); break;
 
-      case 'k': printf("Type private key: "); scanf("%lu", &privKey);
-                printf("Public key is: %lu\n", fme(g, privKey, p)); break;
+      case 'k': printf("Type private key: "); scanf(" %lu", &privKey);
+                pubKey = fme(g, privKey, p);
+                printf("Public key is: %lu\n", pubKey); break;
 
       case 'x': printf("Goodbye\n"); return 0; break;
       default: break;
