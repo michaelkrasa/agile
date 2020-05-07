@@ -38,15 +38,6 @@ unsigned long fme(unsigned long long g, unsigned long long x, unsigned long p) {
   return result;
 }
 
-char *getInput()
-{
-  char string[100];
-  fgets(string, 100, stdin);
-  char *input = malloc(sizeof(char)*(strlen(string)+1));
-  sscanf(string, "%[^\t\n]", input);
-  return input;
-}
-
 /* Task 4
 /  x * y = 1 mod p
 /  using Fermat's little theorem because we know p is prime
@@ -83,9 +74,8 @@ int main() {
                 printf("\nEncrypted secret is (%d, %d)\n", a, b);
                 break;
 
-      case 'd': printf("Type in received message in form (a,b): ");
-                char *input = getInput();
-                sscanf(input, "(%lu,%lu)", &a, &b);
+      case 'd': printf("Type in received message in form (a,b):\n");
+                scanf(" ( %lu,%lu)", &a, &b);
                 printf("Type in your private key: ");
                 scanf(" %lu", &privKey);
 
