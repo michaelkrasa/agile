@@ -74,15 +74,15 @@ int main() {
                 printf("\nEncrypted secret is (%lu, %lu)\n", a, b);
                 break;
 
-      case 'd': printf("Type in received message in form (a,b):\n");
+      case 'd': printf("Type in the received message in form (a,b): \n");
                 scanf(" ( %lu,%lu)", &a, &b);
-                printf("Type in your private key: ");
+                printf("Type in your private key: \n");
                 scanf(" %lu", &privKey);
 
                 secret = fme(a, privKey, p);
                 inv = imp(secret, p);
                 msg = b * inv % p;
-                printf("\n%lu\n", msg); break;
+                printf("The decrypted secret is: %lu\n", msg); break;
 
       case 'k': printf("Type private key: "); scanf("%lu", &privKey);
                 printf("Public key is: %lu\n", fme(g, privKey, p)); break;
